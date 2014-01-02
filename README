@@ -1,0 +1,90 @@
+# File:		sgf/README
+# Project:	ahgo
+
+# Author:	Ken Friedenbach
+# Copyright, 2009-2014. 
+# All rights reserved
+ 
+	
+The SGF - FF[4] file format is defined in:
+	http://www.red-bean.com/sgf/index.html
+
+The sgf definition (with extensions) in this project is contained in:
+	SGF_Properties_Spec.txt
+
+The sgf package supports:
+	reading and writing SGF files
+	building, writing, and reading pattern libraries:
+		fuseki (whole board) patterns
+		joseki (corner) patterns
+		side, quadrant, and center patterns
+	
+In addtion to normal SGF tree structures, this package supports:
+	extensions to record wins in dictionaries:
+		WB - Wins Black
+		WW - Wins White
+		WO - Wins Other (jigo, ?, Void (Left Unfinished), etc.)
+		WC - Win Continue (TODO: used to point to continuation of games)
+// TODO:
+	extensions for Acyclic Directed Graphs (ADGs)
+	extensions for very large trees/ADGs stored in multiple files
+
+The package consists of the following files:
+    findPatterns.go - walk SGF game trees and record patterns 
+	game.go			- supports the data structures for storing a game
+	interface.go	- defines the interfaces to the Parser
+	parser.go		- implements a Parser for SGF files
+	printer.go		- supports the writing of SGF files
+	scanner.go		- implements a Scanner for SGF files
+	sgf.go			- reads SGF_Properties_Spec.txt file and builds theProperties
+	token.go		- defines tokens in SGF files
+	tree.go			- defines the Nodes for SGF trees and ADG's
+
+Notes on implementation:
+	Mode 1: read and write the files in sgfdb Database, 
+		and compare for equality (ignoring white space). (Compare time to JOSEKILIB)
+	Mode 2: read sgfdb Database and write:
+		whole board dictionaries
+		corner dictionaries
+		side dictionaries
+		quadrant dictionaries
+		center dictionaries
+		player histories
+	Mode 3: support of a player:
+		read pieces of dictionaries
+		maintain self and opponent histories
+
+TODO: implement and remove comments below:
+Thoughts on very large dictionaries:
+	Need to add properties for:
+		RP - root path (needed to read blocks not in memory, but not written out)
+		DP - directory path (relative to root)
+		FN - file name (for continuations)
+		BL - block link node (for reference to lower block)
+
+TODO: finish implementation and remove comments below:
+Parser currently had variable sized slices of Nodes, Properties, and Strings.
+	Sizes are: 
+		Property:		- 48 (less than 100)
+		TreeNode:		- 16 (64K per blcok)
+		PropertyValue	- 24 (only a few, if ignore comments, times, etc.)
+		String:			- 16 + len(str) (only a few, mostly setup and Game Info)
+		... ( more printed by temp.go )
+
+TODO: implement and remove comments below:
+Algorithm for splitting a full block:
+	Oldest children are the first on children lists.
+	Walk the tree, depth-first, oldest first, marking tree Nodes.
+	If an ADG link is found (it is a leaf) mark it and go to target.
+		(push target)
+		Mark parents of target until a marked ancester is found.
+		(push any unmarked children)
+	Pop
+		do depth first search
+	Whenever leaf is reached, Pop Stack.
+		If stack is empty, check if about 50% is marked.
+			If so, stop and split into marked and unmarked.
+				If not, back track up tree until an unmarked Sibling is found. 
+					Re-Start depth first from there.
+Before splitting block, unmark from root down to first node with two marked children.
+
