@@ -70,7 +70,7 @@ func (S *Scanner) next() {
 		case r >= 0x80:
 			// not ASCII
 			re, _ := utf8.DecodeRune(S.src[S.offset:])
-            r = int(re)
+			r = int(re)
 		}
 		S.offset += w
 		S.ch = r
@@ -101,7 +101,7 @@ func (S *Scanner) InitScanner(filename string, sr []byte, er ErrorHandler, mode 
 	S.src = sr
 	S.err = er
 	S.mode = mode
-	S.pos = ah.Position{Filename:filename, Offset:0, Line:1, Column:0}
+	S.pos = ah.Position{Filename: filename, Offset: 0, Line: 1, Column: 0}
 
 	S.ch = ' '
 	S.offset = 0

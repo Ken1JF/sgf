@@ -16,16 +16,16 @@
 package sgf
 
 import (
-    "errors"
-	"unicode"
-	"bytes"
-    "os"
-    "io"
-	"strings"
-	"strconv"
 	"bufio"
+	"bytes"
+	"errors"
 	"fmt"
 	"gitHub.com/Ken1JF/ahgo/ah"
+	"io"
+	"os"
+	"strconv"
+	"strings"
+	"unicode"
 	"unsafe"
 )
 
@@ -40,7 +40,7 @@ func tra(s string) string {
 
 func unt(s string) {
 	if TRACE_SGF && ah.TraceAH {
-		fmt.Println("Leaving: ", s);
+		fmt.Println("Leaving: ", s)
 	}
 }
 
@@ -50,10 +50,10 @@ type FF4Note uint8
 
 const ( // code	meaning
 	Std_SGF4     FF4Note = iota // none "Std"
-	New_SGF4             // '*'	"New"
-	Changed_SGF4         // '!'	"Changed"
-	Non_std_SGF4         // '#'	"Non_std"
-	Unknown_SGF4         // ?	"Unknown"
+	New_SGF4                    // '*'	"New"
+	Changed_SGF4                // '!'	"Changed"
+	Non_std_SGF4                // '#'	"Non_std"
+	Unknown_SGF4                // ?	"Unknown"
 )
 
 // FF4NoteNames is an array containing strings used
@@ -105,25 +105,25 @@ func checkPropertyType(prop *Property, inGameRoot bool) (ret error) {
 	if prop != nil {
 		if inGameRoot {
 			switch prop.FF4Type {
-				case NoType, RootProp, SetupProp, GameInfoProp:
-					; // do nothing
-				case MoveProp:
-					ret = errors.New("move property in root node")
-				default:
-					ret = errors.New("unknown SGFPropNodeType")
+			case NoType, RootProp, SetupProp, GameInfoProp:
+				// do nothing
+			case MoveProp:
+				ret = errors.New("move property in root node")
+			default:
+				ret = errors.New("unknown SGFPropNodeType")
 			}
 		} else {
 			switch prop.FF4Type {
-				case RootProp:
-					ret = errors.New("RootProp not in root node")
-				case SetupProp:
-					ret = errors.New("SetupProp not in root node")
-				case GameInfoProp:
-					ret = errors.New("GameInfoProp not in root node")
-				case NoType, MoveProp:
-					; // do nothing
-				default:
-					ret = errors.New("unknown SGFPropNodeType")
+			case RootProp:
+				ret = errors.New("RootProp not in root node")
+			case SetupProp:
+				ret = errors.New("SetupProp not in root node")
+			case GameInfoProp:
+				ret = errors.New("GameInfoProp not in root node")
+			case NoType, MoveProp:
+				// do nothing
+			default:
+				ret = errors.New("unknown SGFPropNodeType")
 			}
 		}
 	} else {
@@ -138,11 +138,11 @@ func checkPropertyType(prop *Property, inGameRoot bool) (ret error) {
 type QualifierType uint8
 
 const (
-	NoQualifier QualifierType = iota	// ""
-	Inherit								// "(inherit)"
-	LOA									// "(LOA)"
-	GoGO								// "(Go)"
-	SGC									// "(SGC)"
+	NoQualifier QualifierType = iota // ""
+	Inherit                          // "(inherit)"
+	LOA                              // "(LOA)"
+	GoGO                             // "(Go)"
+	SGC                              // "(SGC)"
 )
 
 // QualifierNames is an array containing the strings used
@@ -165,30 +165,30 @@ var QualifierNames = [...]string{
 type PropValueType uint8
 
 const (
-	Unknown		PropValueType = iota	// "<?Unknown?>"
-	None_OR_compNum_simpText		// "none | composed number \":\" simpletext"
-	None							// "none"
-	CompNum_simpText				// "composed number \":\" simpletext"
-	CompressedListOfPoint			// "compressed list of point"
-	ListOfCompPoint_simpTest		// "list of composed point ':' simpletext"
-	ListOfCompPoint_Point			// "list of composed point ':' point"
-	EListOfPoint					// "elist of point"
-	ListOfPoint						// "list of point"
-	Point							// "point"
-	CompSimpText_simpText			// "composed simpletext ':' simpletext"
-	SimpText						// "simpletext"
-	Text							// "text"
-	Num_OR_compNum_num				// "(number | composed number ':' number)"
-	Num_0_3							// "number (range: 0-3)"
-	Num_1_4							// "number (range: 1-4)"
-	Num_1_5_or_7_16					// "number (range: 1-5,7-16)"
-	Num								// "number"
-	Move							// "move"
-	ListOfStone						// "list of stone"
-	Stone							// "stone"
-	Real							// "real"
-	Double							// "double"
-	Color							// "color"
+	Unknown                  PropValueType = iota // "<?Unknown?>"
+	None_OR_compNum_simpText                      // "none | composed number \":\" simpletext"
+	None                                          // "none"
+	CompNum_simpText                              // "composed number \":\" simpletext"
+	CompressedListOfPoint                         // "compressed list of point"
+	ListOfCompPoint_simpTest                      // "list of composed point ':' simpletext"
+	ListOfCompPoint_Point                         // "list of composed point ':' point"
+	EListOfPoint                                  // "elist of point"
+	ListOfPoint                                   // "list of point"
+	Point                                         // "point"
+	CompSimpText_simpText                         // "composed simpletext ':' simpletext"
+	SimpText                                      // "simpletext"
+	Text                                          // "text"
+	Num_OR_compNum_num                            // "(number | composed number ':' number)"
+	Num_0_3                                       // "number (range: 0-3)"
+	Num_1_4                                       // "number (range: 1-4)"
+	Num_1_5_or_7_16                               // "number (range: 1-5,7-16)"
+	Num                                           // "number"
+	Move                                          // "move"
+	ListOfStone                                   // "list of stone"
+	Stone                                         // "stone"
+	Real                                          // "real"
+	Double                                        // "double"
+	Color                                         // "color"
 )
 
 // ValueNames is an array containing the strings used
@@ -227,12 +227,12 @@ var ValueNames = [...]string{
 // FF4 Property specifications:
 //
 type Property struct {
-	Note        FF4Note			// see FF4 note codes, above
-	ID          []byte			// one or two bytes
+	Note        FF4Note // see FF4 note codes, above
+	ID          []byte  // one or two bytes
 	Description string
-	FF4Type		SGFPropNodeType		// see Property types, above
-	Qualifier   QualifierType	// see Qualifiers, above
-	Value       PropValueType		// see Value types, above
+	FF4Type     SGFPropNodeType // see Property types, above
+	Qualifier   QualifierType   // see Qualifiers, above
+	Value       PropValueType   // see Value types, above
 }
 
 // theProperties is an internal array containing the properties
@@ -257,12 +257,12 @@ const (
 	AR_idx PropertyDefIdx = 4
 	AS_idx PropertyDefIdx = 5
 	AW_idx PropertyDefIdx = 6
-	B_idx PropertyDefIdx = 7
+	B_idx  PropertyDefIdx = 7
 	BL_idx PropertyDefIdx = 8
 	BM_idx PropertyDefIdx = 9
 	BR_idx PropertyDefIdx = 10
 	BT_idx PropertyDefIdx = 11
-	C_idx PropertyDefIdx = 12
+	C_idx  PropertyDefIdx = 12
 	CA_idx PropertyDefIdx = 13
 	CP_idx PropertyDefIdx = 14
 	CR_idx PropertyDefIdx = 15
@@ -289,7 +289,7 @@ const (
 	LN_idx PropertyDefIdx = 36
 	MA_idx PropertyDefIdx = 37
 	MN_idx PropertyDefIdx = 38
-	N_idx PropertyDefIdx = 39
+	N_idx  PropertyDefIdx = 39
 	OB_idx PropertyDefIdx = 40
 	OH_idx PropertyDefIdx = 41
 	ON_idx PropertyDefIdx = 42
@@ -303,7 +303,7 @@ const (
 	RE_idx PropertyDefIdx = 50
 	RO_idx PropertyDefIdx = 51
 	RU_idx PropertyDefIdx = 52
-	S_idx PropertyDefIdx = 53
+	S_idx  PropertyDefIdx = 53
 	SE_idx PropertyDefIdx = 54
 	SL_idx PropertyDefIdx = 55
 	SO_idx PropertyDefIdx = 56
@@ -318,9 +318,9 @@ const (
 	TW_idx PropertyDefIdx = 65
 	UC_idx PropertyDefIdx = 66
 	US_idx PropertyDefIdx = 67
-	V_idx PropertyDefIdx = 68
+	V_idx  PropertyDefIdx = 68
 	VW_idx PropertyDefIdx = 69
-	W_idx PropertyDefIdx = 70
+	W_idx  PropertyDefIdx = 70
 	WB_idx PropertyDefIdx = 71
 	WC_idx PropertyDefIdx = 72
 	WL_idx PropertyDefIdx = 73
@@ -330,7 +330,7 @@ const (
 	WW_idx PropertyDefIdx = 77
 )
 
-type ID_CountArray [78] int 
+type ID_CountArray [78]int
 
 // TODO: should this be 0 (initially) => len(theProperties) after initialization?
 // to allow more then 127 properties?
@@ -349,8 +349,8 @@ func GetProperty(idx PropertyDefIdx) (p *Property) {
 
 //TODO: make the above global variables part of an SGFReader strut
 
-// parseProperty parses a line from the SGF Specification file, 
-// and builds a property. It returns the property, 
+// parseProperty parses a line from the SGF Specification file,
+// and builds a property. It returns the property,
 // together with a string indicating any errors that occurred.
 //
 func parseProperty(b []byte) (ret Property, err string) {
@@ -359,7 +359,7 @@ func parseProperty(b []byte) (ret Property, err string) {
 		return ret, "empty string"
 	}
 	ch := b[0]
-	b = b[1 :]
+	b = b[1:]
 	switch ch {
 	case '*':
 		ret.Note = New_SGF4
@@ -376,26 +376,26 @@ func parseProperty(b []byte) (ret Property, err string) {
 		return ret, "no ID"
 	}
 	ch = b[0]
-	b = b[1 :]
+	b = b[1:]
 	for !unicode.IsSpace(rune(ch)) {
 		ret.ID = append(ret.ID, ch)
 		if len(b) < 1 {
 			return ret, "no property"
 		}
 		ch = b[0]
-		b = b[1 :]
+		b = b[1:]
 	}
 	b = bytes.TrimSpace(b)
 	// set the Description
 	ret.Description = string(bytes.TrimSpace(b[0:15]))
-	b = bytes.TrimSpace(b[15 :])
+	b = bytes.TrimSpace(b[15:])
 	// find the type:
 	typeIdx := -1
 	for ti, ts := range SGFPropNodeTypeNames {
 		typeIdx = bytes.Index(b, []byte(ts))
 		if typeIdx >= 0 {
 			ret.FF4Type = SGFPropNodeType(ti)
-			b = bytes.TrimSpace(b[typeIdx+len(ts) :])
+			b = bytes.TrimSpace(b[typeIdx+len(ts):])
 			break
 		}
 	}
@@ -410,7 +410,7 @@ func parseProperty(b []byte) (ret Property, err string) {
 			qualIdx = bytes.Index(b, []byte(qs))
 			if qualIdx >= 0 {
 				ret.Qualifier = QualifierType(qi)
-				b = bytes.TrimSpace(b[qualIdx+len(qs) :])
+				b = bytes.TrimSpace(b[qualIdx+len(qs):])
 				break
 			}
 		}
@@ -554,7 +554,7 @@ func Setup(specFile string, verifyOrder bool, verbose bool) (ret int) {
 		fmt.Printf("Error reading SGF Spec File: %s, %s\n", specFile, err)
 		return -1
 	}
-	if verbose  {
+	if verbose {
 		for i, p := range theProperties {
 			fmt.Printf("%3d:%3s:%16s:%10s:%10s:%8s:%3d:%s\n",
 				i, p.ID, p.Description, SGFPropNodeTypeNames[p.FF4Type],
@@ -632,12 +632,12 @@ func SGFCoords(n ah.NodeLoc, isFF4 bool) (ret []byte) {
 		ret[0] = sgf_coords[c]
 		ret[1] = sgf_coords[r]
 	} else if isFF4 {
-        ret = make([]byte, 0)
-    } else {
+		ret = make([]byte, 0)
+	} else {
 		ret[0] = 't'
 		ret[1] = 't'
 	}
-	return	ret
+	return ret
 }
 
 // Convert the first 2 characters of a string into an SGF point represented as a NodeLoc
@@ -649,16 +649,16 @@ func SGFPoint(s []byte) (n ah.NodeLoc, err ah.ErrorList) {
 			// TODO: check that SGF FF == 4 ???
 			n = ah.PassNodeLoc
 		} else {
-			err.Add(ah.NoPos, "SGFPoint, len = " + strconv.Itoa(len(s)) + " not 0 or 2 chars, " + string(s))
+			err.Add(ah.NoPos, "SGFPoint, len = "+strconv.Itoa(len(s))+" not 0 or 2 chars, "+string(s))
 		}
 	} else {
 		col := strings.Index(sgf_coords, string(s[0:1]))
 		if col < 0 {
-			err.Add(ah.NoPos, "SGFPoint: bad col " + string(s[0:1]))
-		} 
+			err.Add(ah.NoPos, "SGFPoint: bad col "+string(s[0:1]))
+		}
 		row := strings.Index(sgf_coords, string(s[1:2]))
 		if row < 0 {
-			err.Add(ah.NoPos, "SGFPoint: bad row " + string(s[1:2]))
+			err.Add(ah.NoPos, "SGFPoint: bad row "+string(s[1:2]))
 		}
 		if err == nil {
 			n = ah.MakeNodeLoc(ah.ColValue(col), ah.RowValue(row))
@@ -666,7 +666,6 @@ func SGFPoint(s []byte) (n ah.NodeLoc, err ah.ErrorList) {
 	}
 	return n, err
 }
-
 
 // Some functions to print the size and alignment of types:
 // TODO: delete when no longer needed
@@ -677,12 +676,12 @@ func printSizeAlign(s string, sz uintptr, al uintptr) {
 }
 
 func PrintSGFStructSizes() {
-// token.go
+	// token.go
 	var t Token
 	var pos ah.Position
 	printSizeAlign("Token", unsafe.Sizeof(t), unsafe.Alignof(t))
 	printSizeAlign("ah.Position", unsafe.Sizeof(pos), unsafe.Alignof(pos))
-// tree.go
+	// tree.go
 	var tnt TreeNodeType
 	var tni TreeNodeIdx
 	var pi PropIdx
@@ -693,14 +692,14 @@ func PrintSGFStructSizes() {
 	printSizeAlign("PropIdx", unsafe.Sizeof(pi), unsafe.Alignof(pi))
 	printSizeAlign("TreeNode", unsafe.Sizeof(tn), unsafe.Alignof(tn))
 	printSizeAlign("PropertyValue", unsafe.Sizeof(pv), unsafe.Alignof(pv))
-// parser.go
+	// parser.go
 	var pt GameTree
 	var pr Parser
 	var pyi PlayerInfo
 	printSizeAlign("GameTree", unsafe.Sizeof(pt), unsafe.Alignof(pt))
 	printSizeAlign("Parser", unsafe.Sizeof(pr), unsafe.Alignof(pr))
 	printSizeAlign("PlayerInfo", unsafe.Sizeof(pyi), unsafe.Alignof(pyi))
-// sgf.go
+	// sgf.go
 	var ff4n FF4Note
 	var sgfpnt SGFPropNodeType
 	var qt QualifierType
@@ -715,15 +714,15 @@ func PrintSGFStructSizes() {
 	printSizeAlign("Property", unsafe.Sizeof(prop), unsafe.Alignof(prop))
 	printSizeAlign("PropertyDefIdx", unsafe.Sizeof(pdi), unsafe.Alignof(pdi))
 	printSizeAlign("ID_CountArray", unsafe.Sizeof(idca), unsafe.Alignof(idca))
-// scanner.go
+	// scanner.go
 	var s Scanner
 	printSizeAlign("Scanner", unsafe.Sizeof(s), unsafe.Alignof(s))
-// errors.go
+	// errors.go
 	var eh ErrorHandler
 	var el ah.ErrorList
 	printSizeAlign("ErrorHandler", unsafe.Sizeof(eh), unsafe.Alignof(eh))
 	printSizeAlign("ah.ErrorList", unsafe.Sizeof(el), unsafe.Alignof(el))
-// game.go
+	// game.go
 	var k Komi
 	var r Result
 	printSizeAlign("Komi", unsafe.Sizeof(k), unsafe.Alignof(k))

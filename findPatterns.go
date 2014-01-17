@@ -11,15 +11,14 @@
 package sgf
 
 import (
-	"strconv"
 	"gitHub.com/Ken1JF/ahgo/ah"
+	"strconv"
 )
-
 
 type traversePoint struct {
 	cGam, cPat TreeNodeIdx
-	pDep	int
-	mkGd	bool
+	pDep       int
+	mkGd       bool
 }
 
 // AddTeachingPattern adds one or more patterns from a GameTree, to a global pattern tree (DAG)
@@ -33,14 +32,14 @@ type traversePoint struct {
 //	pattType is the type of Pattern being stored in pattTree
 //		WHOLE_BOARD_PATTERN, etc.
 // TODO: add ohter types of patterns
-//	moveLimit is the maximum move number to place in the pattTree 
+//	moveLimit is the maximum move number to place in the pattTree
 //		Does not include handicap or other pre-placed stones.
 //
 // returns an Error if one is detected, a translation that takes the first move into a canonical location, and the updated pattTree
 //
 
-func (gamT *GameTree) AddTeachingPattern(szCol ah.ColValue, szRow ah.RowValue , ha int, pattTree *GameTree, 
-		pattType ah.PatternType, moveLimit int, patternLimit int, skipFiles int) (err ah.ErrorList, trans ah.BoardTrans, upPattTree *GameTree) {
+func (gamT *GameTree) AddTeachingPattern(szCol ah.ColValue, szRow ah.RowValue, ha int, pattTree *GameTree,
+	pattType ah.PatternType, moveLimit int, patternLimit int, skipFiles int) (err ah.ErrorList, trans ah.BoardTrans, upPattTree *GameTree) {
 	var collPatt, gInfoPatt TreeNodeIdx
 	var curGam, curPatt TreeNodeIdx
 	var pv PropertyValue
@@ -52,12 +51,12 @@ func (gamT *GameTree) AddTeachingPattern(szCol ah.ColValue, szRow ah.RowValue , 
 	var newNodLoc ah.NodeLoc
 	var patternDepth int
 	var limitReached bool = false
-	
+
 	// compute color of firstMoveColor
 	firstMoveColor := ah.White
 	if ha == 0 {
 		firstMoveColor = ah.Black
-	} 
+	}
 	// count the moves:
 	nMoves := 0
 	found := false
@@ -66,18 +65,18 @@ func (gamT *GameTree) AddTeachingPattern(szCol ah.ColValue, szRow ah.RowValue , 
 		if (patternLimit > 0) && (patternDepth >= patternLimit) {
 			limitReached = true
 		}
-//		str := strconv.Itoa(int(nodColr))
+		//		str := strconv.Itoa(int(nodColr))
 		idx = pattTree.FindChild(curPatt, newNL)
-		if idx == nilTreeNodeIdx {  // not found, add it
+		if idx == nilTreeNodeIdx { // not found, add it
 			moveType := WhiteMoveNode
 			if nodColr == ah.Black {
 				moveType = BlackMoveNode
 			}
-			idxx, err := pattTree.AddChild(curPatt,  moveType, 0)
+			idxx, err := pattTree.AddChild(curPatt, moveType, 0)
 			if len(err) != 0 {
 				return
 			}
-//			fmt.Printf("findOrAdd: added %d\n", idxx)
+			//			fmt.Printf("findOrAdd: added %d\n", idxx)
 			pattTree.treeNodes[idxx].propListOrNodeLoc = PropIdx(newNL)
 			idx = idxx
 		}
@@ -124,7 +123,7 @@ func (gamT *GameTree) AddTeachingPattern(szCol ah.ColValue, szRow ah.RowValue , 
 		pv.PropType = ST_idx
 		pv.ValType = Num_0_3
 		pattTree.AddAProp(gInfoPatt, pv)
-		
+
 		// TODO: support n x m boards. Add SZ
 		pv.StrValue = []byte(strconv.Itoa(int(szCol)))
 		pv.PropType = SZ_idx
@@ -136,19 +135,19 @@ func (gamT *GameTree) AddTeachingPattern(szCol ah.ColValue, szRow ah.RowValue , 
 		pattTree.InitAbstHier(szCol, szRow, ah.StringLevel, true)
 		pattTree.SetHandicap(ha)
 		pv.StrValue = pattTree.PlaceHandicap(ha, int(szCol))
-		
+
 		if pv.StrValue != nil {
 			// Add the AB for handicap points
 			pv.PropType = AB_idx
 			pv.ValType = ListOfStone
 			pattTree.AddAProp(gInfoPatt, pv)
 		}
-//		fmt.Printf("Created pattTree: collPatt %d gInfoPatt %d curPatt %d\n", collPatt, gInfoPatt, curPatt)
+		//		fmt.Printf("Created pattTree: collPatt %d gInfoPatt %d curPatt %d\n", collPatt, gInfoPatt, curPatt)
 	} else {
-		collPatt = 1	// CollectionNode is child of RootNode
-		gInfoPatt = 2	// GameInfoNode is child of CollectionNode
+		collPatt = 1  // CollectionNode is child of RootNode
+		gInfoPatt = 2 // GameInfoNode is child of CollectionNode
 		curPatt = gInfoPatt
-//		fmt.Printf("Reuse pattTree: collPatt %d gInfoPatt %d curPatt %d\n", collPatt, gInfoPatt, curPatt)
+		//		fmt.Printf("Reuse pattTree: collPatt %d gInfoPatt %d curPatt %d\n", collPatt, gInfoPatt, curPatt)
 	}
 
 	// traverse gamT
@@ -157,73 +156,73 @@ func (gamT *GameTree) AddTeachingPattern(szCol ah.ColValue, szRow ah.RowValue , 
 findFirst:
 	for i, nod := range gamT.treeNodes {
 		switch nod.TNodType {
-			case RootNode:
-			case CollectionNode:
-				if i != 1 {
-					err.Add(ah.NoPos, "AddTeachingPattern: CollectionNode is not correct " + strconv.Itoa(i))
-					return 
-				}
-//				collGam = TreeNodeIdx(i)
-			case GameInfoNode:
-				if i != 2 {
-					err.Add(ah.NoPos, "AddTeachingPattern: GameInfoNode is not correct " + strconv.Itoa(i))
-					return 
-				}
-//				gInfoGam = TreeNodeIdx(i)
-			case InteriorNode, BlackMoveNode,  WhiteMoveNode:
-				nMoves += 1
-				curGam = TreeNodeIdx(i)
-				nodLoc, nodColr, err = gamT.GetMove(nod)
-				if (len(err) != 0) {
-					return err, trans, upPattTree
-				}
-				if nMoves > gamT.Board.GetNMoves() {
-//					fmt.Printf("Need to re-DoBoardMove: %d %d \n", nMoves, gamT.Board.GetNMoves())
-					_, err = gamT.AbstHier.DoBoardMove(nodLoc, nodColr, true) 
-					
-				} else {
-//					fmt.Printf("Don't need to re-DoBoardMove: %d %d \n", nMoves, gamT.Board.GetNMoves())
-				}
-				if (len(err) != 0) {
-					return err, trans, upPattTree
-				}
-				if (nMoves == 1) && (firstMoveColor == nodColr) {
-//					str := strconv.Itoa(int(nodColr))
-					found = true
-					newNodLoc, trans = gamT.FindCanonicalRep(nodLoc, ah.BoardHandicapSymmetry[ha])
-					// check that nod has no siblings
-//					if nod.NextSib != nilTreeNodeIdx {
-//						err.Add(ah.NoPos, "AddTeachingPattern: unsupported sibling of first node")
-//						return
-//					}
-					break findFirst
-				}
-			case SequenceNode:
-					err.Add(ah.NoPos, "AddTeachingPattern: SequenceNode not supported " + strconv.Itoa(i))
-			case TransferNode:
-					err.Add(ah.NoPos, "AddTeachingPattern: TransferNode not supported " + strconv.Itoa(i))
+		case RootNode:
+		case CollectionNode:
+			if i != 1 {
+				err.Add(ah.NoPos, "AddTeachingPattern: CollectionNode is not correct "+strconv.Itoa(i))
+				return
+			}
+			//				collGam = TreeNodeIdx(i)
+		case GameInfoNode:
+			if i != 2 {
+				err.Add(ah.NoPos, "AddTeachingPattern: GameInfoNode is not correct "+strconv.Itoa(i))
+				return
+			}
+			//				gInfoGam = TreeNodeIdx(i)
+		case InteriorNode, BlackMoveNode, WhiteMoveNode:
+			nMoves += 1
+			curGam = TreeNodeIdx(i)
+			nodLoc, nodColr, err = gamT.GetMove(nod)
+			if len(err) != 0 {
+				return err, trans, upPattTree
+			}
+			if nMoves > gamT.Board.GetNMoves() {
+				//					fmt.Printf("Need to re-DoBoardMove: %d %d \n", nMoves, gamT.Board.GetNMoves())
+				_, err = gamT.AbstHier.DoBoardMove(nodLoc, nodColr, true)
+
+			} else {
+				//					fmt.Printf("Don't need to re-DoBoardMove: %d %d \n", nMoves, gamT.Board.GetNMoves())
+			}
+			if len(err) != 0 {
+				return err, trans, upPattTree
+			}
+			if (nMoves == 1) && (firstMoveColor == nodColr) {
+				//					str := strconv.Itoa(int(nodColr))
+				found = true
+				newNodLoc, trans = gamT.FindCanonicalRep(nodLoc, ah.BoardHandicapSymmetry[ha])
+				// check that nod has no siblings
+				//					if nod.NextSib != nilTreeNodeIdx {
+				//						err.Add(ah.NoPos, "AddTeachingPattern: unsupported sibling of first node")
+				//						return
+				//					}
+				break findFirst
+			}
+		case SequenceNode:
+			err.Add(ah.NoPos, "AddTeachingPattern: SequenceNode not supported "+strconv.Itoa(i))
+		case TransferNode:
+			err.Add(ah.NoPos, "AddTeachingPattern: TransferNode not supported "+strconv.Itoa(i))
 		}
 	}
-	again:
+again:
 	if found {
 		// traverse the gamTree and put in the pattTree
 		for (curGam != nilTreeNodeIdx) && (limitReached == false) {
 			// traverse tree via children links
 			markBad := gamT.treeNodes[curGam].NextSib != curGam
-//			str := strconv.Itoa(int(nodColr))
+			//			str := strconv.Itoa(int(nodColr))
 			curPatt = findOrAdd(newNodLoc)
 			if onMain && markBad {
 				var pv PropertyValue
 				// BM Bad Move
-				pv.StrValue	 = []byte("1")
-				pv.NextProp	= nilPropIdx
-				pv.PropType	= BM_idx
+				pv.StrValue = []byte("1")
+				pv.NextProp = nilPropIdx
+				pv.PropType = BM_idx
 				pv.ValType = Double
-                // TODO: something missing here. pv not saved before overwritten.
+				// TODO: something missing here. pv not saved before overwritten.
 				// TR Triangle
-				pv.StrValue	 = SGFCoords(newNodLoc, gamT.IsFF4())
-				pv.NextProp	= nilPropIdx
-				pv.PropType	= TR_idx
+				pv.StrValue = SGFCoords(newNodLoc, gamT.IsFF4())
+				pv.NextProp = nilPropIdx
+				pv.PropType = TR_idx
 				pv.ValType = ListOfPoint
 				if newNodLoc != ah.PassNodeLoc {
 					pattTree.AddAProp(curPatt, pv)
@@ -232,19 +231,19 @@ findFirst:
 			if markGood {
 				var pv PropertyValue
 				// GB Good for Black or GW Good for White
-				pv.StrValue	 = []byte("1")
-				pv.NextProp	= nilPropIdx
+				pv.StrValue = []byte("1")
+				pv.NextProp = nilPropIdx
 				if nodColr == ah.Black {
-					pv.PropType	= GB_idx
+					pv.PropType = GB_idx
 				} else {
-					pv.PropType	= GW_idx
+					pv.PropType = GW_idx
 				}
 				pv.ValType = Double
-                // TODO: something missing here. pv not saved before overwritten.
+				// TODO: something missing here. pv not saved before overwritten.
 				// SQ Square
-				pv.StrValue	 = SGFCoords(newNodLoc, gamT.IsFF4())
-				pv.NextProp	= nilPropIdx
-				pv.PropType	= SQ_idx
+				pv.StrValue = SGFCoords(newNodLoc, gamT.IsFF4())
+				pv.NextProp = nilPropIdx
+				pv.PropType = SQ_idx
 				pv.ValType = ListOfPoint
 				if newNodLoc != ah.PassNodeLoc {
 					pattTree.AddAProp(curPatt, pv)
@@ -268,7 +267,7 @@ findFirst:
 								newTraverseRec.cPat = curPatt
 								newTraverseRec.mkGd = onMain
 								newTraverseRec.pDep = patternDepth
-//								fmt.Printf("  pushing sib: %d curPatt: %d curGam: %d\n", sib, curPatt, curGam)
+								//								fmt.Printf("  pushing sib: %d curPatt: %d curGam: %d\n", sib, curPatt, curGam)
 								traverseStack = append(traverseStack, newTraverseRec)
 							}
 							firstCh = sib
@@ -276,44 +275,44 @@ findFirst:
 					}
 				}
 			}
-				
+
 			// move down to next generation
 			curGam = gamT.treeNodes[curGam].Children
 			if curGam != nilTreeNodeIdx {
-				curGam = gamT.treeNodes[curGam].NextSib	// move to first child
+				curGam = gamT.treeNodes[curGam].NextSib // move to first child
 				nodLoc, nodColr, err = gamT.GetMove(gamT.treeNodes[curGam])
 				if len(err) != 0 {
 					return
 				}
-				c,r := ah.GetColRow(nodLoc)
+				c, r := ah.GetColRow(nodLoc)
 				newNodLoc = gamT.TransNodeLoc(trans, c, r)
 			}
 		}
 	}
-		
+
 	// see if any stacked nodes to visit:
 	if len(traverseStack) > 0 {
 		var nxtTraverseRec = traverseStack[0]
-//		fmt.Printf("  popping curGam: %d curPatt: %d\n", curGam, curPatt)
+		//		fmt.Printf("  popping curGam: %d curPatt: %d\n", curGam, curPatt)
 		traverseStack = traverseStack[1:]
 		curGam = nxtTraverseRec.cGam
 		curPatt = nxtTraverseRec.cPat
 		curPatt = pattTree.treeNodes[curPatt].Parent // move to parent
 		markGood = nxtTraverseRec.mkGd
 		patternDepth = nxtTraverseRec.pDep
-		patternDepth -= 1	// decrement, due to move to parent
+		patternDepth -= 1 // decrement, due to move to parent
 		limitReached = false
 		onMain = false
 		nodLoc, nodColr, err = gamT.GetMove(gamT.treeNodes[curGam])
 		if len(err) != 0 {
 			return
 		}
-		c,r := ah.GetColRow(nodLoc)
+		c, r := ah.GetColRow(nodLoc)
 		newNodLoc = gamT.TransNodeLoc(trans, c, r)
 		found = true
 		goto again
 	}
-	
+
 	upPattTree = pattTree
 	return err, trans, upPattTree
 }

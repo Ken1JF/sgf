@@ -11,13 +11,13 @@
 package sgf
 
 import (
-    "errors"
 	"bufio"
+	"errors"
 	"fmt"
+	"gitHub.com/Ken1JF/ahgo/ah"
 	"os"
 	"strconv"
 	"strings"
-	"gitHub.com/Ken1JF/ahgo/ah"
 )
 
 var indent int = 0 // TODO: make this a per parser variable?
@@ -71,29 +71,29 @@ func (pv *PropertyValue) writeProperty(w *bufio.Writer, FF4 bool) (err error) {
 			return errors.New("writeProperty: BAD PropertyDefIdx " + strconv.FormatInt(int64(pt), 10))
 		}
 	} else {
-        _, err = w.Write(prop.ID)
-        if err == nil {
-            err = w.WriteByte('[')
-            str := pv.StrValue
-            if err == nil {
-                if (pt == AB_idx) || (pt == AE_idx) || (pt == AW_idx) || (pt == S_idx) || (pt == TB_idx) || (pt == TR_idx) || (pt == TW_idx) { // split into pairs
-                    for len(str) > 2 {
-                        _, err = w.Write(str[0:2])
-                        _, err = w.WriteString("][")
-                        str = str[2:]
-                    }
-                }
-                if ((len(str) == 2) && (str[0] == 't') && (str[1] == 't')) &&
-                (((pt == B_idx) || (pt == W_idx)) && (FF4 == true)) {
-                        // replace with empty string
-                } else {
-                    _, err = w.Write(str)
-                }
-                if err == nil {
-                    err = w.WriteByte(']')
-                }
-            }
-        }
+		_, err = w.Write(prop.ID)
+		if err == nil {
+			err = w.WriteByte('[')
+			str := pv.StrValue
+			if err == nil {
+				if (pt == AB_idx) || (pt == AE_idx) || (pt == AW_idx) || (pt == S_idx) || (pt == TB_idx) || (pt == TR_idx) || (pt == TW_idx) { // split into pairs
+					for len(str) > 2 {
+						_, err = w.Write(str[0:2])
+						_, err = w.WriteString("][")
+						str = str[2:]
+					}
+				}
+				if ((len(str) == 2) && (str[0] == 't') && (str[1] == 't')) &&
+					(((pt == B_idx) || (pt == W_idx)) && (FF4 == true)) {
+					// replace with empty string
+				} else {
+					_, err = w.Write(str)
+				}
+				if err == nil {
+					err = w.WriteByte(']')
+				}
+			}
+		}
 	}
 	return err
 }
@@ -119,23 +119,22 @@ func (p *GameTree) writeProperties(w *bufio.Writer, n TreeNodeIdx, onePer bool) 
 	return err
 }
 
-
-func (p*GameTree) writeLabel(w *bufio.Writer, n ah.NodeLoc, LabelIdx int) (err error) {
-    Labels := [26]byte{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}
-    err = w.WriteByte('[')
-    if err == nil {
-        _, err = w.Write(SGFCoords(n, false))
-        if err == nil {
-            err = w.WriteByte(':')
-            if err == nil {
-                err = w.WriteByte(Labels[LabelIdx])
-                if err == nil {
-                    err = w.WriteByte(']')
-                }
-            }
-        }
-    }
-    return err
+func (p *GameTree) writeLabel(w *bufio.Writer, n ah.NodeLoc, LabelIdx int) (err error) {
+	Labels := [26]byte{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}
+	err = w.WriteByte('[')
+	if err == nil {
+		_, err = w.Write(SGFCoords(n, false))
+		if err == nil {
+			err = w.WriteByte(':')
+			if err == nil {
+				err = w.WriteByte(Labels[LabelIdx])
+				if err == nil {
+					err = w.WriteByte(']')
+				}
+			}
+		}
+	}
+	return err
 }
 
 //	writeTree writes a .sgf tree from the treeNodes array
@@ -166,24 +165,24 @@ func (p *GameTree) writeTree(w *bufio.Writer, n TreeNodeIdx, needs bool, nMov in
 		typ := p.treeNodes[n].TNodType
 		switch typ {
 		case GameInfoNode:
-                //           fmt.Println("writing GameInfoNode\n")
+			//           fmt.Println("writing GameInfoNode\n")
 			err = p.writeProperties(w, n, true)
 		case InteriorNode:
-                //           fmt.Println("writing InteriorNode\n")
+			//           fmt.Println("writing InteriorNode\n")
 			err = p.writeProperties(w, n, false)
 		case BlackMoveNode:
 			_, err = w.WriteString("B[")
 			_, err = w.Write(SGFCoords(ah.NodeLoc(p.treeNodes[n].propListOrNodeLoc), p.IsFF4()))
 			err = w.WriteByte(']')
-            nMov += 1
+			nMov += 1
 		case WhiteMoveNode:
 			_, err = w.WriteString("W[")
 			_, err = w.Write(SGFCoords(ah.NodeLoc(p.treeNodes[n].propListOrNodeLoc), p.IsFF4()))
 			err = w.WriteByte(']')
-            nMov += 1
+			nMov += 1
 		default:
 			fmt.Println(" *** unsupported TreeNodeType in writeTree")
-			err = errors.New("writeTree: unsupported TreeNodeType"+strconv.FormatInt(int64(typ), 10))
+			err = errors.New("writeTree: unsupported TreeNodeType" + strconv.FormatInt(int64(typ), 10))
 			return err
 		}
 		if err == nil {
@@ -195,7 +194,7 @@ func (p *GameTree) writeTree(w *bufio.Writer, n TreeNodeIdx, needs bool, nMov in
 				err = p.writeTree(w, ch, chNeeds, nMov, nMovPerLine)
 				for ch != lastCh && err == nil {
 					ch = p.treeNodes[ch].NextSib
-                        //					nMov += 1
+					//					nMov += 1
 					err = p.writeTree(w, ch, chNeeds, nMov, nMovPerLine)
 				}
 			}
@@ -306,8 +305,8 @@ const filePERM uint32 = 0644 // owner RW, group R, others R
 
 func (tree *GameTree) WriteFile(fileName string, nMovPerLine int) (err error) {
 	defer u(tr("WriteFile"))
-    // old parms to Open(fileName, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, filePERM)
-	f, err := os.Create(fileName) 
+	// old parms to Open(fileName, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, filePERM)
+	f, err := os.Create(fileName)
 	if err != nil {
 		return errors.New("OpenFile:" + fileName + " " + err.Error())
 	}

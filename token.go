@@ -63,20 +63,20 @@ const (
 //
 var tokens = map[Token]string{
 	ILLEGAL: "ILLEGAL",
-	EOF: "EOF",
+	EOF:     "EOF",
 
-	IDENT: "IDENT",
-	INT: "INT",
-	FLOAT: "FLOAT",
+	IDENT:  "IDENT",
+	INT:    "INT",
+	FLOAT:  "FLOAT",
 	STRING: "STRING",
 
-	LPAREN: "(",
-	LBRACK: "[",
-	PERIOD: ".",
-	RPAREN: ")",
-	RBRACK: "]",
+	LPAREN:    "(",
+	LBRACK:    "[",
+	PERIOD:    ".",
+	RPAREN:    ")",
+	RBRACK:    "]",
 	SEMICOLON: ";",
-	COLON: ":",
+	COLON:     ":",
 }
 
 // String returns the string corresponding to the Token tok.
@@ -103,4 +103,3 @@ func (tok Token) IsLiteral() bool { return literal_beg < tok && tok < literal_en
 // delimiters; returns false otherwise.
 //
 func (tok Token) IsOperator() bool { return operator_beg < tok && tok < operator_end }
-

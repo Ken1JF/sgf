@@ -20,9 +20,9 @@ package sgf
 
 import (
 	"bytes"
+	"gitHub.com/Ken1JF/ahgo/ah"
 	"io"
 	"io/ioutil"
-    "gitHub.com/Ken1JF/ahgo/ah"
 )
 
 // If src != nil, readSource converts src to a []byte if possible;
@@ -30,7 +30,7 @@ import (
 // the result of reading the file specified by filename.
 //
 func readSource(filename string, src interface{}) ([]byte, ah.ErrorList) {
-    var errs ah.ErrorList
+	var errs ah.ErrorList
 	if src != nil {
 		switch s := src.(type) {
 		case string:
@@ -46,22 +46,21 @@ func readSource(filename string, src interface{}) ([]byte, ah.ErrorList) {
 			var buf bytes.Buffer
 			_, err := io.Copy(&buf, s)
 			if err != nil {
-                errs.Add(ah.NoPos, err.Error())
+				errs.Add(ah.NoPos, err.Error())
 				return nil, errs
 			}
 			return buf.Bytes(), errs
 		default:
-            errs.Add(ah.NoPos, "invalid source")
-			return nil, errs 
+			errs.Add(ah.NoPos, "invalid source")
+			return nil, errs
 		}
 	}
-    bytes, err := ioutil.ReadFile(filename)
+	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {
-        errs.Add(ah.NoPos, err.Error())
-    } 
-    return bytes, errs
+		errs.Add(ah.NoPos, err.Error())
+	}
+	return bytes, errs
 }
-
 
 // ParseFile parses a SGF file and returns a GoTree.TreeNode node.
 //
@@ -87,15 +86,15 @@ func readSource(filename string, src interface{}) ([]byte, ah.ErrorList) {
 // are returned via a Scanner.ErrorList which is sorted by file position.
 //
 func ParseFile(filename string, src interface{}, mode uint, moveLimit int) (*Parser, ah.ErrorList) {
-    var p Parser
-    var errL ah.ErrorList
-    
+	var p Parser
+	var errL ah.ErrorList
+
 	data, errL := readSource(filename, src)
 	if len(errL) != 0 {
 		return nil, errL
 	}
 
 	p.initParser(filename, data, mode, moveLimit)
-    p.parseFile()
+	p.parseFile()
 	return &p, p.errors
 }

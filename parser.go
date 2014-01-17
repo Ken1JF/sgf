@@ -20,9 +20,9 @@
 package sgf
 
 import (
-	"gitHub.com/Ken1JF/ahgo/ah"
 	"bytes"
 	"fmt"
+	"gitHub.com/Ken1JF/ahgo/ah"
 	"os"
 	"strconv"
 	"strings"
@@ -40,7 +40,7 @@ const (
 	GoGoD                          // apply GoGoD error checks
 )
 
-// The Parser structure holds the Parser's internal state, 
+// The Parser structure holds the Parser's internal state,
 // as well as the parse tree slice.
 
 type Parser struct {
@@ -355,10 +355,10 @@ func (p *Parser) parsePropValue(val PropValueType) (pv PropertyValue) {
 		for p.tok == LBRACK { // more than one, make it a ListOfPoint
 			pv.ValType = ListOfPoint
 			p.next()
-            _, err := SGFPoint(p.lit)
-            if len(err) != 0 {
-                p.errors.Add(p.pos, "Bad "+ValueNames[val]+": "+err[0].Msg+": from "+string(pv.StrValue))
-            }
+			_, err := SGFPoint(p.lit)
+			if len(err) != 0 {
+				p.errors.Add(p.pos, "Bad "+ValueNames[val]+": "+err[0].Msg+": from "+string(pv.StrValue))
+			}
 			pv.StrValue = append(pv.StrValue, p.lit...)
 			if (len(pv.StrValue) % 2) != 0 {
 				p.errors.Add(p.pos, "CompressedListOfPoint not even:"+string(pv.StrValue))
@@ -440,7 +440,7 @@ func (p *Parser) parsePropValue(val PropValueType) (pv PropertyValue) {
 		p.next()
 		p.expect(RBRACK)
 
-		// not possible?		default: 
+		// not possible?		default:
 	}
 	if p.trace {
 		fmt.Printf("ValType: %s String: %s\n", ValueNames[pv.ValType], string(pv.StrValue))
@@ -1115,7 +1115,7 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 
 	case GM_idx:
 		// Check the GM:
-        i, _ := strconv.Atoi(string(pv.StrValue))
+		i, _ := strconv.Atoi(string(pv.StrValue))
 		if i != 1 {
 			p.errors.Add(p.pos, "GM not 1: "+string(pv.StrValue))
 		}
@@ -1382,16 +1382,16 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 
 	case SZ_idx:
 		// set the board size:
-        var col int
-        var row int
-        idx_colon := strings.Index(string(pv.StrValue), ":")
-        if idx_colon > 0 {
-            col, _ = strconv.Atoi(string(pv.StrValue[0:idx_colon]))
-            row, _ = strconv.Atoi(string(pv.StrValue[idx_colon+1:]))
-        } else {
-            col, _ = strconv.Atoi(string(pv.StrValue))
-            row = col
-        }
+		var col int
+		var row int
+		idx_colon := strings.Index(string(pv.StrValue), ":")
+		if idx_colon > 0 {
+			col, _ = strconv.Atoi(string(pv.StrValue[0:idx_colon]))
+			row, _ = strconv.Atoi(string(pv.StrValue[idx_colon+1:]))
+		} else {
+			col, _ = strconv.Atoi(string(pv.StrValue))
+			row = col
+		}
 		p.InitAbstHier(ah.ColValue(col), ah.RowValue(row), ah.StringLevel, p.play) // TODO: vary this?
 		// record the property:
 		p.addProp(ret, pv)
@@ -1592,7 +1592,7 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 		str := string(p.UnknownProperty.ID) + ":" + string(pv.StrValue)
 		pv.StrValue = []byte(str)
 		p.addProp(ret, pv)
-		p.warnings.Add(p.pos, "Unknown SGF property: " + str)
+		p.warnings.Add(p.pos, "Unknown SGF property: "+str)
 
 	default:
 		p.errors.Add(p.pos, "Not Implemented: "+"default:")
@@ -1730,7 +1730,7 @@ func (p *Parser) parseGame(parentNode TreeNodeIdx) (returnNode TreeNodeIdx) {
 	// parse GameInfo properties
 	returnNode = p.parseProperties(true, newGame)
 
-	// parse interior move Nodes	
+	// parse interior move Nodes
 	for (p.tok != RPAREN) && (p.tok != EOF) && (p.limitReached != true) {
 		switch p.tok {
 		case SEMICOLON:
@@ -1782,13 +1782,13 @@ func (p *Parser) parseFile() {
 	}
 
 	if p.errors.ErrorCount() > 0 {
-        p.errors.RemoveMultiples()
+		p.errors.RemoveMultiples()
 		ah.PrintError(os.Stderr, p.errors)
 		ah.PrintError(os.Stdout, p.errors)
 	}
 
 	if p.warnings.ErrorCount() > 0 {
-        p.warnings.RemoveMultiples()
+		p.warnings.RemoveMultiples()
 		ah.PrintError(os.Stderr, p.warnings)
 		ah.PrintError(os.Stdout, p.warnings)
 	}

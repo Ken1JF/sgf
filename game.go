@@ -12,109 +12,109 @@
 package sgf
 
 import (
-    "strconv"
 	"gitHub.com/Ken1JF/ahgo/ah"
+	"strconv"
 )
 
 // This Komi structure allows the notation KM[?] which indicates that a komi
-// was given, but the value is unknown. The default is set == false. 
-// If KM[xxx] appears in an SGF file, set == true. 
+// was given, but the value is unknown. The default is set == false.
+// If KM[xxx] appears in an SGF file, set == true.
 // If known == true, then val is the komi value. Otherwise, val is 0.0.
 // KM[0] is used to indicate that no komi was given.
 //
 type Komi struct {
-	val	float32
-	set	bool
+	val   float32
+	set   bool
 	known bool
 }
 
 // This Result structure supports the addition of comments in the RE[] field.
-// Many of the comments differ only in the separators used, 
+// Many of the comments differ only in the separators used,
 // or the number of moves known. So this structure allows the specification of
 // a number that occurs in the comment, and a left separator: either "{" or "(".
 // The boolean "both" indicates that a matching right separator was found.
-// 
+//
 type Result struct {
-	val []byte
-	com []byte
-	n int
-	sep byte
+	val  []byte
+	com  []byte
+	n    int
+	sep  byte
 	both bool
 }
 
 // Set functions for SGF properties:
 //
-func (gam* GameTree) SetFF(f []byte) {
+func (gam *GameTree) SetFF(f []byte) {
 	gam.fF = f
 }
 
-func (gam* GameTree) IsFF4() (ret bool) {
-    if gam.fF == nil {
-        ret = false
-    } else {
-        i, _ := strconv.Atoi(string(gam.fF))
-        ret = (i == 4)
-    }
+func (gam *GameTree) IsFF4() (ret bool) {
+	if gam.fF == nil {
+		ret = false
+	} else {
+		i, _ := strconv.Atoi(string(gam.fF))
+		ret = (i == 4)
+	}
 	return ret
 }
 
-func (gam* GameTree) SetST(s []byte) {
+func (gam *GameTree) SetST(s []byte) {
 	gam.sT = s
 }
 
-func (gam* GameTree) SetPB(p []byte) {
+func (gam *GameTree) SetPB(p []byte) {
 	gam.pB = p
 }
 
-func (gam* GameTree) GetPB() ( []byte) {
+func (gam *GameTree) GetPB() []byte {
 	return gam.pB
 }
 
-func (gam* GameTree) SetBR(p []byte) {
+func (gam *GameTree) SetBR(p []byte) {
 	gam.bR = p
 }
 
-func (gam* GameTree) GetBR() ([]byte) {
+func (gam *GameTree) GetBR() []byte {
 	return gam.bR
 }
 
-func (gam* GameTree) SetBT(p []byte) {
+func (gam *GameTree) SetBT(p []byte) {
 	gam.bT = p
 }
 
-func (gam* GameTree) GetPW() ([]byte) {
+func (gam *GameTree) GetPW() []byte {
 	return gam.pW
 }
 
-func (gam* GameTree) SetPW(p []byte) {
+func (gam *GameTree) SetPW(p []byte) {
 	gam.pW = p
 }
 
-func (gam* GameTree) SetWR(p []byte) {
+func (gam *GameTree) SetWR(p []byte) {
 	gam.wR = p
 }
 
-func (gam* GameTree) GetWR() ([]byte) {
+func (gam *GameTree) GetWR() []byte {
 	return gam.wR
 }
 
-func (gam* GameTree) SetWT(p []byte) {
+func (gam *GameTree) SetWT(p []byte) {
 	gam.wT = p
 }
 
-func (gam* GameTree) SetDT(p []byte) {
+func (gam *GameTree) SetDT(p []byte) {
 	gam.dT = p
 }
 
-func (gam* GameTree) SetPC(p []byte) {
+func (gam *GameTree) SetPC(p []byte) {
 	gam.pC = p
 }
 
-func (gam* GameTree) SetRU(p []byte) {
+func (gam *GameTree) SetRU(p []byte) {
 	gam.rU = p
 }
 
-func (gam* GameTree) SetRE(v []byte, b [] byte, num int, ch byte, two bool) {
+func (gam *GameTree) SetRE(v []byte, b []byte, num int, ch byte, two bool) {
 	// TODO: set Board value
 	// set SGF details
 	gam.rE.val = v
@@ -124,39 +124,39 @@ func (gam* GameTree) SetRE(v []byte, b [] byte, num int, ch byte, two bool) {
 	gam.rE.both = two
 }
 
-func (gam* GameTree) SetGC(p []byte) {
+func (gam *GameTree) SetGC(p []byte) {
 	gam.gC = p
 }
 
-func (gam* GameTree) SetEV(p []byte) {
+func (gam *GameTree) SetEV(p []byte) {
 	gam.eV = p
 }
 
-func (gam* GameTree) SetRO(p []byte) {
+func (gam *GameTree) SetRO(p []byte) {
 	gam.rO = p
 }
 
-func (gam* GameTree) SetAP(p []byte) {
+func (gam *GameTree) SetAP(p []byte) {
 	gam.aP = p
 }
 
-func (gam* GameTree) SetAN(p []byte) {
+func (gam *GameTree) SetAN(p []byte) {
 	gam.aN = p
 }
 
-func (gam* GameTree) SetCP(p []byte) {
+func (gam *GameTree) SetCP(p []byte) {
 	gam.cP = p
 }
 
-func (gam* GameTree) SetSO(p []byte) {
+func (gam *GameTree) SetSO(p []byte) {
 	gam.sO = p
 }
 
-func (gam* GameTree) SetUS(p []byte) {
+func (gam *GameTree) SetUS(p []byte) {
 	gam.uS = p
 }
 
-func (gam* GameTree) SetKM(p float32, k bool) {
+func (gam *GameTree) SetKM(p float32, k bool) {
 	// Set the Board value
 	if k {
 		gam.SetKomi(p)
@@ -169,11 +169,11 @@ func (gam* GameTree) SetKM(p float32, k bool) {
 	}
 }
 
-func (gam* GameTree) SetTM(p float32) {
+func (gam *GameTree) SetTM(p float32) {
 	gam.tM = p
 }
 
-func (gam* GameTree) DoAB(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
+func (gam *GameTree) DoAB(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
 	movType := ah.Unocc
 	gam.aB = append(gam.aB, p)
 	bp := &gam.Graphs[ah.PointLevel].Nodes[p]
@@ -189,7 +189,7 @@ func (gam* GameTree) DoAB(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
 	}
 	_ = gam.AddMove(p, movType, 0, ah.NilNodeLoc)
 	if doPlay {
-		gam.EachAdjNode(ah.PointLevel, p, 
+		gam.EachAdjNode(ah.PointLevel, p,
 			func(adjNl ah.NodeLoc) {
 				newSt := gam.Graphs[ah.PointLevel].CompHigh(&(gam.AbstHier), ah.PointLevel, adjNl, uint16(ah.Unocc))
 				gam.ChangeNodeState(ah.PointLevel, adjNl, ah.NodeStatus(newSt), true)
@@ -198,9 +198,9 @@ func (gam* GameTree) DoAB(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
 	return err
 }
 
-func (gam* GameTree) DoAE(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
+func (gam *GameTree) DoAE(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
 	movType := ah.Unocc
-//	gam.aE = append(gam.aE, p)
+	//	gam.aE = append(gam.aE, p)
 	bp := &gam.Graphs[ah.PointLevel].Nodes[p]
 	cur := bp.GetNodeLowState()
 	if ah.PointStatus(cur) == ah.Black {
@@ -217,7 +217,7 @@ func (gam* GameTree) DoAE(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
 	return err
 }
 
-func (gam* GameTree) DoAW(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
+func (gam *GameTree) DoAW(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
 	movType := ah.Unocc
 	gam.aW = append(gam.aW, p)
 	bp := &gam.Graphs[ah.PointLevel].Nodes[p]
@@ -233,7 +233,7 @@ func (gam* GameTree) DoAW(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
 	}
 	_ = gam.AddMove(p, movType, 0, ah.NilNodeLoc)
 	if doPlay {
-		gam.EachAdjNode(ah.PointLevel, p, 
+		gam.EachAdjNode(ah.PointLevel, p,
 			func(adjNl ah.NodeLoc) {
 				newSt := gam.Graphs[ah.PointLevel].CompHigh(&(gam.AbstHier), ah.PointLevel, adjNl, uint16(ah.Unocc))
 				gam.ChangeNodeState(ah.PointLevel, adjNl, ah.NodeStatus(newSt), true)
@@ -242,7 +242,7 @@ func (gam* GameTree) DoAW(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
 	return err
 }
 
-func (gam* GameTree) DoB(nl ah.NodeLoc, doPlay bool) (movN int, err ah.ErrorList) {
+func (gam *GameTree) DoB(nl ah.NodeLoc, doPlay bool) (movN int, err ah.ErrorList) {
 	movN, err = gam.DoBoardMove(nl, ah.Black, doPlay)
 	if movN == 1 {
 		gam.SetPlayerRank()
@@ -250,7 +250,7 @@ func (gam* GameTree) DoB(nl ah.NodeLoc, doPlay bool) (movN int, err ah.ErrorList
 	return movN, err
 }
 
-func (gam* GameTree) DoW(nl ah.NodeLoc, doPlay bool) (movN int, err ah.ErrorList) {
+func (gam *GameTree) DoW(nl ah.NodeLoc, doPlay bool) (movN int, err ah.ErrorList) {
 	movN, err = gam.DoBoardMove(nl, ah.White, doPlay)
 	if movN == 1 {
 		gam.SetPlayerRank()
@@ -258,19 +258,19 @@ func (gam* GameTree) DoW(nl ah.NodeLoc, doPlay bool) (movN int, err ah.ErrorList
 	return movN, err
 }
 
-func (gam* GameTree) SetOH(p []byte) {
+func (gam *GameTree) SetOH(p []byte) {
 	gam.oH = p
 }
 
-func (gam* GameTree) GetOH() ( []byte) {
+func (gam *GameTree) GetOH() []byte {
 	return gam.oH
 }
 
-func (gam* GameTree) SetHA(p int) {
+func (gam *GameTree) SetHA(p int) {
 	gam.SetHandicap(p)
 }
 
-func (gam* GameTree) GetHA() ( int) {
+func (gam *GameTree) GetHA() int {
 	return gam.GetHandicap()
 }
 
@@ -278,8 +278,8 @@ func (gam* GameTree) GetHA() ( int) {
 //
 func (gam *GameTree) PlaceHandicap(n int, siz int) (pts []uint8) {
 	var lin, mid int
-//	var nl ah.NodeLoc
-//	var play bool = true
+	//	var nl ah.NodeLoc
+	//	var play bool = true
 	place := func(c int, r int) {
 		nl := ah.MakeNodeLoc(ah.ColValue(c), ah.RowValue(r))
 		gam.DoAB(nl, true)
@@ -289,67 +289,66 @@ func (gam *GameTree) PlaceHandicap(n int, siz int) (pts []uint8) {
 	if siz < 13 {
 		lin = 2
 	}
-	mid = (siz-1)/2
+	mid = (siz - 1) / 2
 	switch n {
-		case 0:
-		case 2: 
-			place(siz-(lin+1), lin)			// UpperRight
-			place(lin, siz-(lin+1))			// LowerLeft
-		case 3:
-			place(siz-(lin+1), lin)			// UpperRight
-			place(lin, siz-(lin+1))			// LowerLeft
-			place(siz-(lin+1), siz-(lin+1))	// LowerRight
-		case 4:
-			place(siz-(lin+1), lin)			// UpperRight
-			place(lin, siz-(lin+1))			// LowerLeft
-			place(siz-(lin+1), siz-(lin+1))	// LowerRight
-			place(lin, lin)					// UpperLeft
-		case 5: 
-			place(siz-(lin+1), lin)			// UpperRight
-			place(lin, siz-(lin+1))			// LowerLeft
-			place(siz-(lin+1), siz-(lin+1))	// LowerRight
-			place(lin, lin)					// UpperLeft
-			place(mid, mid)					// mid point
-		case 6: 
-			place(siz-(lin+1), lin)			// UpperRight
-			place(lin, siz-(lin+1))			// LowerLeft
-			place(siz-(lin+1), siz-(lin+1))	// LowerRight
-			place(lin, lin)					// UpperLeft
-			place(lin, mid)					// mid point Left side
-			place(siz-(lin+1), mid)			// mid point Right side
-		case 7: 
-			place(siz-(lin+1), lin)			// UpperRight
-			place(lin, siz-(lin+1))			// LowerLeft
-			place(siz-(lin+1), siz-(lin+1))	// LowerRight
-			place(lin, lin)					// UpperLeft
-			place(lin, mid)					// mid point Left side
-			place(siz-(lin+1), mid)			// mid point Right side
-			place(mid, mid)					// mid point
-		case 8:
-			place(siz-(lin+1), lin)			// UpperRight
-			place(lin, siz-(lin+1))			// LowerLeft
-			place(siz-(lin+1), siz-(lin+1))	// LowerRight
-			place(lin, lin)					// UpperLeft
-			place(lin, mid)					// mid point Left side
-			place(siz-(lin+1), mid)			// mid point Right side
-			place(mid, lin)					// mid point Top side
-			place(mid, siz-(lin+1))			// mid point Bottom side
-		case 9:
-			place(siz-(lin+1), lin)			// UpperRight
-			place(lin, siz-(lin+1))			// LowerLeft
-			place(siz-(lin+1), siz-(lin+1))	// LowerRight
-			place(lin, lin)					// UpperLeft
-			place(lin, mid)					// mid point Left side
-			place(siz-(lin+1), mid)			// mid point Right side
-			place(mid, lin)					// mid point Top side
-			place(mid, siz-(lin+1))			// mid point Bottom side
-			place(mid, mid)					// mid point
+	case 0:
+	case 2:
+		place(siz-(lin+1), lin) // UpperRight
+		place(lin, siz-(lin+1)) // LowerLeft
+	case 3:
+		place(siz-(lin+1), lin)         // UpperRight
+		place(lin, siz-(lin+1))         // LowerLeft
+		place(siz-(lin+1), siz-(lin+1)) // LowerRight
+	case 4:
+		place(siz-(lin+1), lin)         // UpperRight
+		place(lin, siz-(lin+1))         // LowerLeft
+		place(siz-(lin+1), siz-(lin+1)) // LowerRight
+		place(lin, lin)                 // UpperLeft
+	case 5:
+		place(siz-(lin+1), lin)         // UpperRight
+		place(lin, siz-(lin+1))         // LowerLeft
+		place(siz-(lin+1), siz-(lin+1)) // LowerRight
+		place(lin, lin)                 // UpperLeft
+		place(mid, mid)                 // mid point
+	case 6:
+		place(siz-(lin+1), lin)         // UpperRight
+		place(lin, siz-(lin+1))         // LowerLeft
+		place(siz-(lin+1), siz-(lin+1)) // LowerRight
+		place(lin, lin)                 // UpperLeft
+		place(lin, mid)                 // mid point Left side
+		place(siz-(lin+1), mid)         // mid point Right side
+	case 7:
+		place(siz-(lin+1), lin)         // UpperRight
+		place(lin, siz-(lin+1))         // LowerLeft
+		place(siz-(lin+1), siz-(lin+1)) // LowerRight
+		place(lin, lin)                 // UpperLeft
+		place(lin, mid)                 // mid point Left side
+		place(siz-(lin+1), mid)         // mid point Right side
+		place(mid, mid)                 // mid point
+	case 8:
+		place(siz-(lin+1), lin)         // UpperRight
+		place(lin, siz-(lin+1))         // LowerLeft
+		place(siz-(lin+1), siz-(lin+1)) // LowerRight
+		place(lin, lin)                 // UpperLeft
+		place(lin, mid)                 // mid point Left side
+		place(siz-(lin+1), mid)         // mid point Right side
+		place(mid, lin)                 // mid point Top side
+		place(mid, siz-(lin+1))         // mid point Bottom side
+	case 9:
+		place(siz-(lin+1), lin)         // UpperRight
+		place(lin, siz-(lin+1))         // LowerLeft
+		place(siz-(lin+1), siz-(lin+1)) // LowerRight
+		place(lin, lin)                 // UpperLeft
+		place(lin, mid)                 // mid point Left side
+		place(siz-(lin+1), mid)         // mid point Right side
+		place(mid, lin)                 // mid point Top side
+		place(mid, siz-(lin+1))         // mid point Bottom side
+		place(mid, mid)                 // mid point
 	}
 	return pts
 }
 
-
-func (gam* GameTree) DoAR(p []byte) {
+func (gam *GameTree) DoAR(p []byte) {
 	// TODO: implement Arrows
 	// string format is:
 	//	t1:h1t2:h2 ... tN:hN
@@ -357,7 +356,7 @@ func (gam* GameTree) DoAR(p []byte) {
 	// and hi is the head of arrow i
 }
 
-func (gam* GameTree) DoLN(p []byte) {
+func (gam *GameTree) DoLN(p []byte) {
 	// TODO: implement Lines
 	// string format is:
 	//	t1:h1t2:h2 ... tN:hN
@@ -367,25 +366,25 @@ func (gam* GameTree) DoLN(p []byte) {
 
 // CheckProperties is called after parsing an SGF file.
 //
-func (gam* GameTree) CheckProperties(gogod bool) (errstr string) {
+func (gam *GameTree) CheckProperties(gogod bool) (errstr string) {
 
 	// Check FF[]
-	if (gam.fF == nil) && gogod {	// treat as an error for GoGoD feedback
+	if (gam.fF == nil) && gogod { // treat as an error for GoGoD feedback
 		errstr = "No FF "
 	}
 
 	// Check SZ[]
 	cSz, _ := gam.GetSize()
-	if (cSz == 0) && gogod {	// treat as an error for GoGoD feedback
+	if (cSz == 0) && gogod { // treat as an error for GoGoD feedback
 		errstr = errstr + "No SZ"
 	}
-	
+
 	// TODO: Check GM[]
 
 	// Check HA[] with AB[], AW[], and mov1.
 	// Assumes B is taking handicap, and W playing first.
 	// (This logic is complicated by at least one GoGoD game,
-	// where B gets HA, and makes first move, on another handicap point. 
+	// where B gets HA, and makes first move, on another handicap point.
 	// Check how many, and consider "correcting" the game record(s).)
 	// TODO: check PL?
 	handi := gam.GetHandicap()
@@ -393,8 +392,8 @@ func (gam* GameTree) CheckProperties(gogod bool) (errstr string) {
 	if handi > 0 {
 		if set {
 			if mov1 == ah.Black {
-				if handi != (len(gam.aW) - len(gam.aB)) &&
-					(handi != (len(gam.aB) - len(gam.aW) +1)) {
+				if handi != (len(gam.aW)-len(gam.aB)) &&
+					(handi != (len(gam.aB) - len(gam.aW) + 1)) {
 					errstr = errstr + "HA not equal AW - AB (1.B)"
 				}
 			} else { // mov1 == ah.White
@@ -408,7 +407,7 @@ func (gam* GameTree) CheckProperties(gogod bool) (errstr string) {
 			}
 			// else ok
 		}
-	} else {  // hA == 0
+	} else { // hA == 0
 		if len(gam.aB) != 0 {
 			if len(gam.aW) != len(gam.aB) {
 				if set {
@@ -418,7 +417,7 @@ func (gam* GameTree) CheckProperties(gogod bool) (errstr string) {
 						}
 						// else ok
 					} else { // mov1 == ah.White
-						if len(gam.aB) != len(gam.aW) +1 {
+						if len(gam.aB) != len(gam.aW)+1 {
 							errstr = errstr + "AB not equal AW + 1"
 						}
 						// else ok
@@ -431,17 +430,17 @@ func (gam* GameTree) CheckProperties(gogod bool) (errstr string) {
 			errstr = errstr + "AW not zero"
 		}
 	}
-	
+
 	// TODO: check OH (GoGoD specific property) for consistency with HA, and ranks.
-	
+
 	// TODO: check RE with evaluation of final position.
-	
+
 	return errstr
 }
 
 // GetMove returns the move at a node
 //
-func (gamT *GameTree)GetMove(n TreeNode) (nl ah.NodeLoc, c ah.PointStatus, err ah.ErrorList) {
+func (gamT *GameTree) GetMove(n TreeNode) (nl ah.NodeLoc, c ah.PointStatus, err ah.ErrorList) {
 	if n.TNodType == BlackMoveNode {
 		nl, c = ah.NodeLoc(n.propListOrNodeLoc), ah.Black
 	} else if n.TNodType == WhiteMoveNode {
@@ -452,7 +451,7 @@ func (gamT *GameTree)GetMove(n TreeNode) (nl ah.NodeLoc, c ah.PointStatus, err a
 		if lastProp != nilPropIdx {
 			pl := gamT.propertyValues[lastProp].NextProp
 			prop := gamT.propertyValues[pl]
-			process := func (prop PropertyValue) {
+			process := func(prop PropertyValue) {
 				if prop.PropType == B_idx {
 					OK = true
 					c = ah.Black
@@ -460,7 +459,7 @@ func (gamT *GameTree)GetMove(n TreeNode) (nl ah.NodeLoc, c ah.PointStatus, err a
 				} else if prop.PropType == W_idx {
 					OK = true
 					c = ah.White
-					nl, err =  SGFPoint(prop.StrValue)
+					nl, err = SGFPoint(prop.StrValue)
 				} else {
 					pl = prop.NextProp
 				}
