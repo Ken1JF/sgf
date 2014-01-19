@@ -675,7 +675,7 @@ func printSizeAlign(s string, sz uintptr, al uintptr) {
 	fmt.Println("Type", s, "size", sz, "alignment", al)
 }
 
-func PrintSGFStructSizes() {
+func PrintSGFTypeSizes() {
 	// token.go
 	var t Token
 	var pos ah.Position
