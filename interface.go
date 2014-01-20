@@ -28,7 +28,6 @@ import (
 // If src != nil, readSource converts src to a []byte if possible;
 // otherwise it returns an error. If src == nil, readSource returns
 // the result of reading the file specified by filename.
-//
 func readSource(filename string, src interface{}) ([]byte, ah.ErrorList) {
 	var errs ah.ErrorList
 	if src != nil {
@@ -84,7 +83,6 @@ func readSource(filename string, src interface{}) ([]byte, ah.ErrorList) {
 // errors were found, the result is a partial tree (with TreeNode.BadX Nodes
 // representing the fragments of erroneous SGF file). Multiple errors
 // are returned via a Scanner.ErrorList which is sorted by file position.
-//
 func ParseFile(filename string, src interface{}, mode uint, moveLimit int) (*Parser, ah.ErrorList) {
 	var p Parser
 	var errL ah.ErrorList

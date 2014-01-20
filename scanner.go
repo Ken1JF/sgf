@@ -30,7 +30,6 @@ import (
 // encountered and a handler was installed, the handler is called with a
 // ah.Position and an error message. The ah.Position points to the beginning of
 // the offending token.
-//
 type ErrorHandler func(pos ah.Position, msg string)
 
 // A Scanner holds the scanner's internal state while processing
@@ -38,7 +37,6 @@ type ErrorHandler func(pos ah.Position, msg string)
 // structure but must be initialized via Init before use. For
 // a sample use, see the implementation of Tokenize.
 // TODO: change Scanner to scanner after debugging is complete (Sizeof, etc.)
-//
 type Scanner struct {
 	// immutable state
 	src  []byte       // source
@@ -57,7 +55,6 @@ type Scanner struct {
 
 // Read the next Unicode char into S.ch.
 // S.ch < 0 means end-of-file.
-//
 func (S *Scanner) next() {
 	if S.offset < len(S.src) {
 		S.pos.Offset = S.offset
@@ -82,7 +79,6 @@ func (S *Scanner) next() {
 
 // The mode parameter to the Init function is a set of flags (or 0).
 // They control Scanner behavior.
-//
 const (
 	ScanComments      = 1 << iota // return comments as COMMENT tokens
 	AllowIllegalChars             // do not report an error for illegal chars
@@ -95,7 +91,6 @@ const (
 // filename in the ah.Position returned by Scan for each Token. The
 // mode parameter determines how comments and illegal characters are
 // handled.
-//
 func (S *Scanner) InitScanner(filename string, sr []byte, er ErrorHandler, mode uint) {
 	// Explicitly initialize all fields since a Scanner may be reused.
 	S.src = sr
@@ -267,7 +262,6 @@ func (S *Scanner) scanString(pos ah.Position) {
 // a client may not assume that no error occurred. Instead it
 // must check the Scanner's ScanErrorCount or the number of calls
 // of the error handler, if there was one installed.
-//
 func (S *Scanner) Scan() (pos ah.Position, tok Token, lit []byte) {
 	if S.inPV {
 		// current Token start
@@ -339,7 +333,6 @@ func (S *Scanner) Scan() (pos ah.Position, tok Token, lit []byte) {
 // meaning as for the Init function. Tokenize keeps scanning until f returns
 // false (usually when the Token value is EOF).
 // The result is the number of tokens scanned and the number of errors encountered.
-//
 func Tokenize(filename string, src []byte, err ErrorHandler, mode uint, f func(pos ah.Position, tok Token, lit []byte) bool) (nTok int, nErr int) {
 	var s Scanner
 	s.InitScanner(filename, src, err, mode)

@@ -73,13 +73,11 @@ type Parser struct {
 }
 
 // Add an error
-//
 func (p *Parser) Error(pos ah.Position, msg string) {
 	p.errors.Add(pos, msg)
 }
 
 // ReportException prints values of Properties that cannot be understood
-//
 func (p *Parser) ReportException(idx PropertyDefIdx, str []byte, err string) {
 	if idx != TM_idx {
 		fmt.Printf("BAD Property Value: %s:%d:%d: %s[%s] %s\n", p.pos.Filename, p.pos.Line, p.pos.Column, string(GetProperty(idx).ID), str, err)
@@ -135,13 +133,11 @@ func (p *Parser) next0() {
 }
 
 // Advance to the next token.
-//
 func (p *Parser) next() {
 	p.next0()
 }
 
 // initParser must be called before a Parser can be used
-//
 func (p *Parser) initParser(filename string, src []byte, mode uint, fileLimit int) {
 
 	eh := func(pos ah.Position, msg string) { p.errors.Add(pos, msg) }
@@ -1601,7 +1597,6 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 }
 
 // SetPlayerRank
-//
 func (gam *GameTree) SetPlayerRank() {
 	// set the rank for the black name
 	bn := gam.GetPB()
@@ -1635,7 +1630,6 @@ func (gam *GameTree) SetPlayerRank() {
 
 // parseProperties parses all the property names starting in a given node.
 // Note: some properties, such S[abcdefgh] are expanded into additional nodes.
-//
 func (p *Parser) parseProperties(inRoot bool, parentNode TreeNodeIdx) (returnNode TreeNodeIdx) {
 	if p.trace {
 		defer un(trace(p, "parseProperties"))

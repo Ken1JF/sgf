@@ -144,8 +144,6 @@ func (p *GameTree) writeLabel(w *bufio.Writer, n ah.NodeLoc, LabelIdx int) (err 
 //		nMov keeps a count of moves per line.
 //	writeTree first writes one node, then recursively calls writeTree
 //	writeTree is only called from writeGame, which has one active call, and one that is never reached (&& false)
-//
-
 func (p *GameTree) writeTree(w *bufio.Writer, n TreeNodeIdx, needs bool, nMov int, nMovPerLine int) (err error) {
 	defer u(tr("writeTree"))
 	if needs == true {
@@ -213,8 +211,6 @@ func (p *GameTree) writeTree(w *bufio.Writer, n TreeNodeIdx, needs bool, nMov in
 //	writeGame writes the initial "(", then calls writeTree.
 //	there is logic, which is forced to fail (&& false) for writing siblings of n (doesn't writeTree do this)
 //	if writeTree does not return an error, writeGame writes the terminating ")" with newlines before and after.
-//
-
 func (p *GameTree) writeGame(w *bufio.Writer, n TreeNodeIdx, nMovPerLine int) (err error) {
 	defer u(tr("writeGame"))
 	err = w.WriteByte('(')
@@ -247,8 +243,6 @@ func (p *GameTree) writeGame(w *bufio.Writer, n TreeNodeIdx, nMovPerLine int) (e
 //	TODO: does not appear to have logic to stop after first err is returned.
 //	TODO: need a short sgf test for multiple games in a collection?
 //	TODO: this level of logic seems to satisfy TODO statements above, and forced to fail logic.
-//
-
 func (p *GameTree) writeCollection(w *bufio.Writer, coll TreeNodeIdx, nMovPerLine int) (err error) {
 	defer u(tr("writeCollection"))
 	typ := p.treeNodes[coll].TNodType
@@ -278,8 +272,6 @@ func (p *GameTree) writeCollection(w *bufio.Writer, coll TreeNodeIdx, nMovPerLin
 // TODO: could crash if 0 is out of range? OR does init function in parser.go prevent this?
 // TODO: could crash if RootNode (0) has no Children
 // TODO: does not check if RootNode has more than one child.
-//
-
 func (p *GameTree) writeParseTree(w *bufio.Writer, nMovPerLine int) (err error) {
 	defer u(tr("writeParseTree"))
 	typ := p.treeNodes[0].TNodType

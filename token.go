@@ -26,7 +26,6 @@ import (
 )
 
 // Token is the set of lexical tokens of the SGF (FF4) language
-//
 type Token uint8
 
 const (
@@ -60,7 +59,6 @@ const (
 )
 
 // map of Token values to strings
-//
 var tokens = map[Token]string{
 	ILLEGAL: "ILLEGAL",
 	EOF:     "EOF",
@@ -84,7 +82,6 @@ var tokens = map[Token]string{
 // Token character sequence (e.g., for the Token ADD, the string is
 // "+"). For all other tokens the string corresponds to the Token
 // constant name (e.g. for the Token IDENT, the string is "IDENT").
-//
 func (tok Token) String() string {
 	if str, exists := tokens[tok]; exists {
 		return str
@@ -96,10 +93,8 @@ func (tok Token) String() string {
 
 // IsLiteral returns true for tokens corresponding to identifiers
 // and basic type literals; returns false otherwise.
-//
 func (tok Token) IsLiteral() bool { return literal_beg < tok && tok < literal_end }
 
 // IsOperator returns true for tokens corresponding to operators and
 // delimiters; returns false otherwise.
-//
 func (tok Token) IsOperator() bool { return operator_beg < tok && tok < operator_end }

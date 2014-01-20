@@ -12,7 +12,6 @@
 //
 // Acyclic Directed Graphs are supported, to allow representation
 // of transformations and transpositions leading to equivalent postions.
-//
 package sgf
 
 import (
@@ -22,7 +21,6 @@ import (
 )
 
 // TreeNode Types are represented by unsigned ints
-//
 type TreeNodeType uint8
 
 const (
@@ -54,7 +52,6 @@ var TreeNodeTypeNames = []string{
 // TODO: add ExtensionNodes to allow larger collections.
 // TODO: add DirNodes and FileNodes to store larger collections
 // in structures of directories and files.
-//
 type TreeNodeIdx uint16
 type PropIdx uint16
 
@@ -66,7 +63,6 @@ const (
 )
 
 // A TreeNode can access its Parent, its Children, and its Siblings via indices into []TreeNode
-//
 type TreeNode struct {
 	Parent            TreeNodeIdx // Root (0) has nilTreeNodeIdx as Parent.
 	Children          TreeNodeIdx // Tail of circular linked list. nilTreeNodeIdx => no children.
@@ -77,7 +73,6 @@ type TreeNode struct {
 }
 
 // Property Values are stored in a tail circular list
-//
 type PropertyValue struct {
 	StrValue []byte
 	NextProp PropIdx
@@ -88,7 +83,6 @@ type PropertyValue struct {
 // A GameTree consists of two slices:
 // the first holds the tree/ADG Nodes
 // the second holds property values other than moves
-//
 type GameTree struct {
 	ah.AbstHier
 	treeNodes      []TreeNode
@@ -137,7 +131,6 @@ type GameTree struct {
 }
 
 // initGameTree needs to be called before the GameTree can be used
-//
 func (gT *GameTree) initGameTree() {
 	// TODO: remove this? nilTreeNodeIdx has been changed to 0xFFFF, so 0 can be used...
 	// add the RootNode
@@ -349,7 +342,6 @@ func printQueue(nodQueue []TreeNodeIdx) {
 */
 
 // BreadthFirstTraverse
-//
 func (gamT *GameTree) BreadthFirstTraverse(preVisit bool, Visit TreeTraverseVisitFunc) {
 	var nodQueue []TreeNodeIdx
 	// fmt.Println("Parent Children NextSib propListOrNodeLoc movDepth TNodType")
@@ -393,7 +385,6 @@ func (gamT *GameTree) BreadthFirstTraverse(preVisit bool, Visit TreeTraverseVisi
 
 // DepthFirstTraverse - nodes are visited in either Pre-order, before children
 //  or Post-order, after all children
-//
 func (gamT *GameTree) DepthFirstTraverse(preVisit bool, Visit TreeTraverseVisitFunc) {
 	type dftElement struct {
 		nod_tIdx TreeNodeIdx
@@ -470,7 +461,6 @@ func (gamT *GameTree) DepthFirstTraverse(preVisit bool, Visit TreeTraverseVisitF
 }
 
 // HasSiblings returns true if the node has siblings
-//
 func (gamT *GameTree) HasSiblings(nd TreeNodeIdx) (ret bool) {
 	if nd > 0 { // RootNode can't have siblings
 		sib := gamT.treeNodes[nd].NextSib
@@ -482,7 +472,6 @@ func (gamT *GameTree) HasSiblings(nd TreeNodeIdx) (ret bool) {
 }
 
 // addProperty appends the new property, and maintains a circular linked list
-//
 func (gamT *GameTree) addProperty(pv PropertyValue, nd TreeNodeIdx) (err ah.ErrorList) {
 	cur_l := len(gamT.propertyValues)
 	if cur_l <= MAX_PROP_IDX {
@@ -506,7 +495,6 @@ func (gamT *GameTree) addProperty(pv PropertyValue, nd TreeNodeIdx) (err ah.Erro
 // AddAProp adds a property to a node.
 // AddAProp changes a BlackMoveNode or a WhiteMoveNode into an InteriorNode,
 // when a property is added, making the B or W property the first in the list.
-//
 func (gamT *GameTree) AddAProp(n TreeNodeIdx, pv PropertyValue) (err ah.ErrorList) {
 	mov := gamT.treeNodes[n].propListOrNodeLoc
 	if gamT.treeNodes[n].TNodType == BlackMoveNode {
@@ -542,7 +530,6 @@ func (gamT *GameTree) AddAProp(n TreeNodeIdx, pv PropertyValue) (err ah.ErrorLis
 }
 
 // AddChild appends a new node, and maintains a circular linked list of siblings
-//
 func (gamT *GameTree) AddChild(par TreeNodeIdx, ndty TreeNodeType, mDep int16) (idx TreeNodeIdx, err ah.ErrorList) {
 	if ah.TraceAH {
 		fmt.Println("AddChild:", par, "type:", TreeNodeTypeNames[ndty])
@@ -581,7 +568,6 @@ func (gamT *GameTree) AddChild(par TreeNodeIdx, ndty TreeNodeType, mDep int16) (
 }
 
 // FindChild returns the index of a child of with a move at mov
-//
 func (gamT *GameTree) FindChild(par TreeNodeIdx, mov ah.NodeLoc) (found TreeNodeIdx) {
 	found = nilTreeNodeIdx
 	var ch TreeNodeIdx = nilTreeNodeIdx

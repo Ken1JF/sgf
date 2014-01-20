@@ -21,7 +21,6 @@ import (
 // If KM[xxx] appears in an SGF file, set == true.
 // If known == true, then val is the komi value. Otherwise, val is 0.0.
 // KM[0] is used to indicate that no komi was given.
-//
 type Komi struct {
 	val   float32
 	set   bool
@@ -33,7 +32,6 @@ type Komi struct {
 // or the number of moves known. So this structure allows the specification of
 // a number that occurs in the comment, and a left separator: either "{" or "(".
 // The boolean "both" indicates that a matching right separator was found.
-//
 type Result struct {
 	val  []byte
 	com  []byte
@@ -43,7 +41,7 @@ type Result struct {
 }
 
 // Set functions for SGF properties:
-//
+
 func (gam *GameTree) SetFF(f []byte) {
 	gam.fF = f
 }
@@ -275,7 +273,6 @@ func (gam *GameTree) GetHA() int {
 }
 
 // PlaceHandicap sets the handicap stones, and returns the list of points
-//
 func (gam *GameTree) PlaceHandicap(n int, siz int) (pts []uint8) {
 	var lin, mid int
 	//	var nl ah.NodeLoc
@@ -365,7 +362,6 @@ func (gam *GameTree) DoLN(p []byte) {
 }
 
 // CheckProperties is called after parsing an SGF file.
-//
 func (gam *GameTree) CheckProperties(gogod bool) (errstr string) {
 
 	// Check FF[]
@@ -439,7 +435,6 @@ func (gam *GameTree) CheckProperties(gogod bool) (errstr string) {
 }
 
 // GetMove returns the move at a node
-//
 func (gamT *GameTree) GetMove(n TreeNode) (nl ah.NodeLoc, c ah.PointStatus, err ah.ErrorList) {
 	if n.TNodType == BlackMoveNode {
 		nl, c = ah.NodeLoc(n.propListOrNodeLoc), ah.Black

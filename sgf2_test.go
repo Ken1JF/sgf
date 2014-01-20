@@ -8,16 +8,13 @@ import (
 )
 
 // Eight boards of various sizes.
-//
 var brd_5, brd_7, brd_9, brd_11, brd_13, brd_15, brd_17, brd_19 *ah.AbstHier
 
 // and an array to hold them.
-//
 var brds [8]*ah.AbstHier
 
 // Transformation test data:
 // For these tests, use char values instead of defined PointStatus values
-//
 var test_5 = []string{
 	"1....",
 	"2..x.",
@@ -140,7 +137,6 @@ var test_19 = []string{
 
 // printInitBoard prints the PointType values
 // after a Board is initialized (via SetSize)
-//
 func printInitBoard(abhr *ah.AbstHier, title string) {
 
 	//	Black_Occ_Pt:		"◉",
@@ -169,7 +165,6 @@ func printInitBoard(abhr *ah.AbstHier, title string) {
 // printInitBoard2 is equivalent to printInitBoard
 // but uses the iteration function ah.EachNode
 // and a literal func.
-//
 func printInitBoard2(abhr *ah.AbstHier) {
 	var row ah.RowValue = 0
 	nCol, nRow := abhr.GetSize()
@@ -187,7 +182,6 @@ func printInitBoard2(abhr *ah.AbstHier) {
 }
 
 // Print the boards, after transformation
-//
 func printBrds(msg string, brd *ah.AbstHier, newBrd *ah.AbstHier, tName string) {
 	var c ah.ColValue
 	var r ah.RowValue
@@ -211,7 +205,6 @@ func printBrds(msg string, brd *ah.AbstHier, newBrd *ah.AbstHier, tName string) 
 
 // SetUpTestBoard stores the test data (string characters)
 // in the Board as PointStatus information.
-//
 func SetUpTestBoard(N int, brd *ah.AbstHier, data *[]string) {
 	for r := 0; r < N; r++ {
 		for c := 0; c < N; c++ {
@@ -221,7 +214,6 @@ func SetUpTestBoard(N int, brd *ah.AbstHier, data *[]string) {
 }
 
 // Test the transformation logic
-//
 func ExampleTestTrans() {
 	// Set up the test data boards.
 	var col ah.ColValue
@@ -656,7 +648,6 @@ func ExampleTestTrans() {
 
 // differBrds checks the LowStates of the Nodes
 // only suitable for special set boards
-//
 func differBrds(brd1, brd2 *ah.AbstHier) (ret bool) {
 	var c ah.ColValue
 	var r ah.RowValue
@@ -682,7 +673,6 @@ func differBrds(brd1, brd2 *ah.AbstHier) (ret bool) {
 
 // checkHandicapBrds checks the LowStates of the Nodes
 // only suitable for special set boards
-//
 func checkHandicapBrds(brd1, brd2 *ah.AbstHier) (ret bool) {
 	var c ah.ColValue
 	var r ah.RowValue
@@ -710,7 +700,6 @@ func checkHandicapBrds(brd1, brd2 *ah.AbstHier) (ret bool) {
 }
 
 // checkHandicapCanonical
-//
 func checkHandicapCanonical() {
 	// Verify that the handicap patterns are preserved by transformaions,
 	for i, brd := range brds {
@@ -732,7 +721,6 @@ func checkHandicapCanonical() {
 }
 
 // ExampleCannonicalHandicap points]
-//
 func ExampleCannonicalHandicap() {
 	for ha := 0; ha <= 9; ha++ {
 		if ha != 1 {
@@ -968,7 +956,6 @@ func ExampleCannonicalHandicap() {
 }
 
 // test EachNode and EachAdjNode
-//
 func ExamplePrintBoard() {
 	var count int
 
