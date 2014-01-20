@@ -1,8 +1,9 @@
-package sgf
+package sgf_test
 
 import (
 	"fmt"
 	"gitHub.com/Ken1JF/ahgo/ah"
+	. "gitHub.com/Ken1JF/ahgo/sgf"
 	"strconv"
 )
 

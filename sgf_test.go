@@ -1,7 +1,8 @@
-package sgf
+package sgf_test
 
 import (
 	"fmt"
+	. "gitHub.com/Ken1JF/ahgo/sgf"
 )
 
 func ExampleSGFTypeSizes() {
