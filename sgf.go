@@ -100,19 +100,19 @@ var SGFPropNodeTypeNames = [...]string{
 // String() string function for fmt.Print
 //
 func (sgfPNT SGFPropNodeType) String() string {
-    switch sgfPNT {
-        case NoType:
-            return "--"
-        case RootProp:
-            return "root"
-        case SetupProp:
-            return "setup"
-        case GameInfoProp:
-            return "game-info"
-        case MoveProp:
-            return "move"
-    }
-    return fmt.Sprintf("BAD SGF Property Node Type: %d", int(sgfPNT))
+	switch sgfPNT {
+	case NoType:
+		return "--"
+	case RootProp:
+		return "root"
+	case SetupProp:
+		return "setup"
+	case GameInfoProp:
+		return "game-info"
+	case MoveProp:
+		return "move"
+	}
+	return fmt.Sprintf("BAD SGF Property Node Type: %d", int(sgfPNT))
 }
 
 // checkPropertyType checks that node types appear where they
@@ -565,47 +565,47 @@ func readSpecFile(fn string, verbose bool) (err error) {
 //	n if n properties are out of order
 //
 func SetupSGFProperties(specFile string, verifyOrder bool, verbose bool) (ret int) {
-    if theProperties == nil {
-        err := readSpecFile(specFile, verbose)
-        if err != nil && err != io.EOF {
-            fmt.Printf("Error reading SGF Spec File: %s, %s\n", specFile, err)
-            return -1
-        }
-        if verbose {
-            for i, p := range theProperties {
-                fmt.Printf("%2d:%3s:%16s:%10v:%10s:%8s:%3d:%s\n",
-                           i, p.ID, p.Description, p.FF4Type,
-                           QualifierNames[p.Qualifier], FF4NoteNames[p.Note],
-                           p.Value, ValueNames[p.Value])
-            }
-            for i, p := range theProperties {
-                fmt.Printf("%s_idx PropertyDefIdx = %d\n", p.ID, i)
-            }
-            for _, p := range theProperties {
-                fmt.Printf("{ %d", p.Note)
-                fmt.Printf(", \"%s\"", p.ID)
-                fmt.Printf(", \"%s\", ", p.Description)
-                fmt.Printf(" %d", p.FF4Type)
-                fmt.Printf(", %d", p.Qualifier)
-                fmt.Printf(", %d },\n", p.Value)
-            }
-        }
-        var prev_p Property
-        if verifyOrder {
-            for i, p := range theProperties {
-                if i > 0 { // skip first one, no previous one to compare to
-                    if bytes.Compare(prev_p.ID, p.ID) >= 0 {
-                        fmt.Printf("Error, properties out of order: \"%s\" >= \"%s\"\n", prev_p.ID, p.ID)
-                        ret++
-                    }
-                }
-                prev_p = p
-            }
-        }
-        return ret
-    } else {
-        return 0
-    }
+	if theProperties == nil {
+		err := readSpecFile(specFile, verbose)
+		if err != nil && err != io.EOF {
+			fmt.Printf("Error reading SGF Spec File: %s, %s\n", specFile, err)
+			return -1
+		}
+		if verbose {
+			for i, p := range theProperties {
+				fmt.Printf("%2d:%3s:%16s:%10v:%10s:%8s:%3d:%s\n",
+					i, p.ID, p.Description, p.FF4Type,
+					QualifierNames[p.Qualifier], FF4NoteNames[p.Note],
+					p.Value, ValueNames[p.Value])
+			}
+			for i, p := range theProperties {
+				fmt.Printf("%s_idx PropertyDefIdx = %d\n", p.ID, i)
+			}
+			for _, p := range theProperties {
+				fmt.Printf("{ %d", p.Note)
+				fmt.Printf(", \"%s\"", p.ID)
+				fmt.Printf(", \"%s\", ", p.Description)
+				fmt.Printf(" %d", p.FF4Type)
+				fmt.Printf(", %d", p.Qualifier)
+				fmt.Printf(", %d },\n", p.Value)
+			}
+		}
+		var prev_p Property
+		if verifyOrder {
+			for i, p := range theProperties {
+				if i > 0 { // skip first one, no previous one to compare to
+					if bytes.Compare(prev_p.ID, p.ID) >= 0 {
+						fmt.Printf("Error, properties out of order: \"%s\" >= \"%s\"\n", prev_p.ID, p.ID)
+						ret++
+					}
+				}
+				prev_p = p
+			}
+		}
+		return ret
+	} else {
+		return 0
+	}
 }
 
 // LookUp does a binary search on theProperties,

@@ -302,38 +302,38 @@ func DoRemoveLabels(gamT *GameTree, nodIdx TreeNodeIdx) {
 		fmt.Println("Unknown NodeType, nod =", nod, "TNodType =", nod.TNodType)
 	}
 	/*
-	   for i := 0; i <= int(nod.movDepth)+1; i +=1 {
-	       fmt.Print(".")
-	   }
-	   switch nod.TNodType {
-	       case RootNode:
-	           fmt.Println("Node", nod,
-	                       "TNodType", nod.TNodType, "(RootNode)")
-	       case CollectionNode:
-                fmt.Println("Node", nod,
-                            "TNodType", nod.TNodType, "(CollectionNode)")
-	       case GameInfoNode:
-                fmt.Println("Node", nod,
-                            "TNodType", nod.TNodType, "(GameInfoNode)")
-	       case InteriorNode:
-                fmt.Println("Node", nod,
-                            "TNodType", nod.TNodType, "(InteriorNode)")
-	       case BlackMoveNode:
-                fmt.Println("Node", nod,
-                            "TNodType", nod.TNodType, "(BlackMoveNode)")
-	       case WhiteMoveNode:
-                fmt.Println("Node", nod,
-                            "TNodType", nod.TNodType, "(WhiteMoveNode)")
-	       case SequenceNode:
-                fmt.Println("Node", nod,
-                            "TNodType", nod.TNodType, "(SequenceNode)")
-	       case TransferNode:
-                fmt.Println("Node", nod,
-                            "TNodType", nod.TNodType, "(TransferNode)")
-	       default:
-                fmt.Println("Node", nod,
-                            "TNodType", nod.TNodType, "(default)")
-	   }
+			   for i := 0; i <= int(nod.movDepth)+1; i +=1 {
+			       fmt.Print(".")
+			   }
+			   switch nod.TNodType {
+			       case RootNode:
+			           fmt.Println("Node", nod,
+			                       "TNodType", nod.TNodType, "(RootNode)")
+			       case CollectionNode:
+		                fmt.Println("Node", nod,
+		                            "TNodType", nod.TNodType, "(CollectionNode)")
+			       case GameInfoNode:
+		                fmt.Println("Node", nod,
+		                            "TNodType", nod.TNodType, "(GameInfoNode)")
+			       case InteriorNode:
+		                fmt.Println("Node", nod,
+		                            "TNodType", nod.TNodType, "(InteriorNode)")
+			       case BlackMoveNode:
+		                fmt.Println("Node", nod,
+		                            "TNodType", nod.TNodType, "(BlackMoveNode)")
+			       case WhiteMoveNode:
+		                fmt.Println("Node", nod,
+		                            "TNodType", nod.TNodType, "(WhiteMoveNode)")
+			       case SequenceNode:
+		                fmt.Println("Node", nod,
+		                            "TNodType", nod.TNodType, "(SequenceNode)")
+			       case TransferNode:
+		                fmt.Println("Node", nod,
+		                            "TNodType", nod.TNodType, "(TransferNode)")
+			       default:
+		                fmt.Println("Node", nod,
+		                            "TNodType", nod.TNodType, "(default)")
+			   }
 	*/
 
 }
