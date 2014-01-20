@@ -63,11 +63,11 @@ func (pv *PropertyValue) writeProperty(w *bufio.Writer, FF4 bool) (err error) {
 					}
 				}
 			} else {
-				fmt.Println(" *** no \":\" in UnknownProperty value in writeProperty")
+				fmt.Println("*** no \":\" in UnknownProperty value in writeProperty")
 				err = errors.New("writeProperty: no \":\" in UnknownProperty value.")
 			}
 		} else {
-			fmt.Println(" *** nil property pointer in writeProperty")
+			fmt.Println("*** nil property pointer in writeProperty")
 			return errors.New("writeProperty: BAD PropertyDefIdx " + strconv.FormatInt(int64(pt), 10))
 		}
 	} else {
@@ -181,7 +181,7 @@ func (p *GameTree) writeTree(w *bufio.Writer, n TreeNodeIdx, needs bool, nMov in
 			err = w.WriteByte(']')
 			nMov += 1
 		default:
-			fmt.Println(" *** unsupported TreeNodeType in writeTree")
+			fmt.Println("*** unsupported TreeNodeType in writeTree")
 			err = errors.New("writeTree: unsupported TreeNodeType" + strconv.FormatInt(int64(typ), 10))
 			return err
 		}

@@ -149,7 +149,7 @@ func (gT *GameTree) initGameTree() {
 // TODO: add an avail list for deleted properties
 // for now count and report
 func (gT *GameTree) ReportDeletedProperties() {
-	fmt.Println("The number of deleted Properties = ", gT.NumberOfDeletedProperties)
+	fmt.Println("The number of deleted Properties =", gT.NumberOfDeletedProperties)
 }
 
 func (gT *GameTree) AddToAvailProps(pidx PropIdx) {
@@ -186,7 +186,7 @@ func DoAddLabels(gamT *GameTree, nodIdx TreeNodeIdx) {
 			sep[0] = ']'
 			sep[1] = '['
 			colon[0] = ':'
-			// fmt.Println(" i = ", i)
+			// fmt.Println("i =", i)
 			needsLabel := false
 			if gamT.treeNodes[nodIdx].TNodType == BlackMoveNode {
 				// change to InteriorNode and Add B_idx property
@@ -299,7 +299,7 @@ func DoRemoveLabels(gamT *GameTree, nodIdx TreeNodeIdx) {
 	case SequenceNode:
 	case TransferNode:
 	default:
-		fmt.Println("Unknown NodeType, nod = ", nod, " TNodType = ", nod.TNodType)
+		fmt.Println("Unknown NodeType, nod =", nod, "TNodType =", nod.TNodType)
 	}
 	/*
 	   for i := 0; i <= int(nod.movDepth)+1; i +=1 {
@@ -307,32 +307,32 @@ func DoRemoveLabels(gamT *GameTree, nodIdx TreeNodeIdx) {
 	   }
 	   switch nod.TNodType {
 	       case RootNode:
-	           fmt.Println("Node ", nod,
-	                       " TNodType ", nod.TNodType, " (RootNode)")
+	           fmt.Println("Node", nod,
+	                       "TNodType", nod.TNodType, "(RootNode)")
 	       case CollectionNode:
-	           fmt.Println("Node ", nod,
-	                       " TNodType ", nod.TNodType, " (CollectionNode)")
+                fmt.Println("Node", nod,
+                            "TNodType", nod.TNodType, "(CollectionNode)")
 	       case GameInfoNode:
-	           fmt.Println("Node ", nod,
-	                       " TNodType ", nod.TNodType, " (GameInfoNode)")
+                fmt.Println("Node", nod,
+                            "TNodType", nod.TNodType, "(GameInfoNode)")
 	       case InteriorNode:
-	           fmt.Println("Node ", nod,
-	                       " TNodType ", nod.TNodType, " (InteriorNode)")
+                fmt.Println("Node", nod,
+                            "TNodType", nod.TNodType, "(InteriorNode)")
 	       case BlackMoveNode:
-	           fmt.Println("Node ", nod,
-	                       " TNodType ", nod.TNodType, " (BlackMoveNode)")
+                fmt.Println("Node", nod,
+                            "TNodType", nod.TNodType, "(BlackMoveNode)")
 	       case WhiteMoveNode:
-	           fmt.Println("Node ", nod,
-	                       " TNodType ", nod.TNodType, " (WhiteMoveNode)")
+                fmt.Println("Node", nod,
+                            "TNodType", nod.TNodType, "(WhiteMoveNode)")
 	       case SequenceNode:
-	           fmt.Println("Node ", nod,
-	                       " TNodType ", nod.TNodType, " (SequenceNode)")
+                fmt.Println("Node", nod,
+                            "TNodType", nod.TNodType, "(SequenceNode)")
 	       case TransferNode:
-	           fmt.Println("Node ", nod,
-	                       " TNodType ", nod.TNodType, " (TransferNode)")
+                fmt.Println("Node", nod,
+                            "TNodType", nod.TNodType, "(TransferNode)")
 	       default:
-	           fmt.Println("Node ", nod,
-	                       " TNodType ", nod.TNodType, " (default)")
+                fmt.Println("Node", nod,
+                            "TNodType", nod.TNodType, "(default)")
 	   }
 	*/
 
@@ -340,9 +340,9 @@ func DoRemoveLabels(gamT *GameTree, nodIdx TreeNodeIdx) {
 
 /*
 func printQueue(nodQueue []TreeNodeIdx) {
-    fmt.Println(" node queue, len = ", len(nodQueue), " cap = ", cap(nodQueue))
+    fmt.Println("node queue, len =", len(nodQueue), "cap =", cap(nodQueue))
     for i:=0; i<len(nodQueue); i+=1 {
-        fmt.Print(" node # ", i, " = ", nodQueue[i])
+        fmt.Print("node #", i, "=", nodQueue[i])
     }
     fmt.Println(".")
 }
@@ -369,14 +369,14 @@ func (gamT *GameTree) BreadthFirstTraverse(preVisit bool, Visit TreeTraverseVisi
 			// printQueue(nodQueue)
 			i := 0
 			for ch != lastCh {
-				// fmt.Println("ch = ", ch, " lastCh = ", lastCh)
+				// fmt.Println("ch =", ch, "lastCh =", lastCh)
 				ch = gamT.treeNodes[ch].NextSib
 				nodQueue = append(nodQueue, ch)
 				// printQueue(nodQueue)
 				i += 1
 				if i > 20 {
 					j += 1
-					fmt.Println("  more than 20 children? ")
+					fmt.Println("more than 20 children?")
 					break
 				}
 			}
@@ -384,7 +384,7 @@ func (gamT *GameTree) BreadthFirstTraverse(preVisit bool, Visit TreeTraverseVisi
 		if !preVisit {
 			Visit(gamT, nod)
 		}
-		// fmt.Println("  queue len = ", len(nodQueue))
+		// fmt.Println("  queue len =", len(nodQueue))
 		if j > 5 {
 			break
 		}
@@ -409,13 +409,13 @@ func (gamT *GameTree) DepthFirstTraverse(preVisit bool, Visit TreeTraverseVisitF
 	lastChild := gamT.treeNodes[rootNode].Children
 	firstChild := nilTreeNodeIdx
 	nodStack = append(nodStack, dftElement{nod_tIdx: rootNode, cur_ch: firstChild, last_ch: lastChild})
-	// fmt.Println("  stack len = ", len(nodStack), " should be 1 (push rootnode)")
+	// fmt.Println("stack len =", len(nodStack), "should be 1 (push rootnode)")
 	i := 0
 	for len(nodStack) > 0 {
 		// take an element off the stack
 		nod = nodStack[len(nodStack)-1]
 		nodStack = nodStack[0 : len(nodStack)-1]
-		// fmt.Println("  stack len = ", len(nodStack), " should be 1 less (pop a node)")
+		// fmt.Println("stack len =", len(nodStack), "should be 1 less (pop a node)")
 
 		if preVisit && (nod.cur_ch == nilTreeNodeIdx) {
 			// fmt.Print("PreVisit: ")
@@ -428,7 +428,7 @@ func (gamT *GameTree) DepthFirstTraverse(preVisit bool, Visit TreeTraverseVisitF
 				nod.cur_ch = gamT.treeNodes[nod.last_ch].NextSib
 				// and put this node back, for later children
 				nodStack = append(nodStack, nod)
-				// fmt.Println("  stack len = ", len(nodStack), " should be 1 more (put back node, on first child)")
+				// fmt.Println("stack len =", len(nodStack), "should be 1 more (put back node, on first child)")
 				// build a child element
 				var ch_nod dftElement
 				ch_nod.nod_tIdx = nod.cur_ch
@@ -436,13 +436,13 @@ func (gamT *GameTree) DepthFirstTraverse(preVisit bool, Visit TreeTraverseVisitF
 				ch_nod.cur_ch = nilTreeNodeIdx
 				// and put on the stack
 				nodStack = append(nodStack, ch_nod)
-				// fmt.Println("  stack len = ", len(nodStack), " should be 1 more (put first child)")
+				// fmt.Println("stack len =", len(nodStack), "should be 1 more (put first child)")
 			} else { // this is second, etc. if any
 				if nod.cur_ch != nod.last_ch { // more
 					nod.cur_ch = gamT.treeNodes[nod.cur_ch].NextSib
 					// and put this node back, for later children
 					nodStack = append(nodStack, nod)
-					// fmt.Println("  stack len = ", len(nodStack), " should be 1 more (put back next child)")
+					// fmt.Println("stack len =", len(nodStack), "should be 1 more (put back next child)")
 					// build a child element
 					var ch_nod dftElement
 					ch_nod.nod_tIdx = nod.cur_ch
@@ -450,10 +450,10 @@ func (gamT *GameTree) DepthFirstTraverse(preVisit bool, Visit TreeTraverseVisitF
 					ch_nod.cur_ch = nilTreeNodeIdx
 					// and put on the stack
 					nodStack = append(nodStack, ch_nod)
-					// fmt.Println("  stack len = ", len(nodStack), " should be 1 more(put next child)")
+					// fmt.Println("stack len =", len(nodStack), "should be 1 more(put next child)")
 				} else { // done with all children
 					if !preVisit {
-						// fmt.Print("PostVisit: ")
+						// fmt.Print("PostVisit:")
 						Visit(gamT, nod.nod_tIdx)
 					}
 				}
@@ -465,7 +465,7 @@ func (gamT *GameTree) DepthFirstTraverse(preVisit bool, Visit TreeTraverseVisitF
 			}
 		}
 		i += 1
-		// fmt.Println(" end loop # ", i, " stack len = ", len(nodStack))
+		// fmt.Println("end loop #", i, "stack len =", len(nodStack))
 	}
 }
 
