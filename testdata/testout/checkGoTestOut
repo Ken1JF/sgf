@@ -1,0 +1,7 @@
+cd ../
+echo Checking output .sgf files
+for fil in *.sgf ;
+do
+echo   checking ./$fil  ./goTestOut/$fil
+/Users/ken/Projects/diffsgf/build/Release/diffsgf ./$fil  ./goTestOut/$fil
+done

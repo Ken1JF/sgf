@@ -1,0 +1,432 @@
+(;GM[1]FF[4]CA[UTF-8]AP[CGoban:3]ST[2]
+RU[Japanese]SZ[19]HA[8]KM[0.50]TM[2700]
+PW[Lyonweiqi]PB[ken1jf]WR[3p]BR[8k]DT[2008-05-10]PC[The KGS Go Server at http://www.gokgs.com/]AB[dd][jd][pd][dj][pj][dp][jp][pp]C[ken1jf [8k\]: yes please
+]RE[W+35.50]
+;W[qf]WL[2696.114]C[Lyonweiqi [3p\]: enjoy the game
+]
+;B[nd]BL[2692.835]C[ken1jf [8k\]: you too!
+]
+;W[cf]WL[2688.198]
+;B[ce]BL[2676]
+;W[df]WL[2668.899]
+;B[fd]BL[2666.888]
+;W[cl]WL[2644.466]
+;B[cn]BL[2638.303]
+;W[el]WL[2540.604]
+;B[fj]BL[2572.697]
+;W[gl]WL[2536.244]
+;B[ff]BL[2512.95]
+;W[fq]WL[2522.579]
+;B[dq]BL[2479.101]
+;W[nq]WL[2492.639]
+(;B[gq]BL[2288.473]
+;W[gp]WL[2467.691]
+;B[hq]BL[2265.971]
+;W[qn]WL[2417.646]
+;B[oo]BL[2227.765]
+;W[qq]WL[2408.341]
+;B[pq]BL[2167.979]
+;W[qp]WL[2345.462]
+(;B[mo]BL[2140.632]
+;W[nn]WL[2316.347]
+;B[pn]BL[2083.88]
+;W[pm]WL[2274.158]
+;B[qo]BL[2039.073]
+;W[ro]WL[2217.258]
+;B[po]BL[2033.556]
+;W[rm]WL[2214.703]
+;B[no]BL[1995.445]
+;W[fp]WL[2173.493]
+(;B[ch]BL[1928.662]
+;W[fb]WL[2141.173]
+;B[db]BL[1866.305]
+;W[cc]WL[2110.368]
+;B[cd]BL[1807.666]
+;W[he]WL[2104.538]
+;B[gd]BL[1744.775]
+;W[ic]WL[2099.952]
+(;B[hd]BL[1703.077]
+;W[id]WL[2054.494]
+;B[gb]BL[1681.598]
+;W[lc]WL[1971.585]
+(;B[qc]BL[1576.533]C[Lyonweiqi [3p\]: let w not stress
+]
+;W[me]WL[1857.589]
+;B[of]BL[1550.581]
+;W[ph]WL[1829.686]
+(;B[oi]BL[1443.27]
+;W[oh]WL[1808.9]
+;B[nh]BL[1414.31]
+;W[ni]WL[1776.702]
+;B[nj]BL[1387.273]
+;W[mi]WL[1768.237]
+;B[ng]BL[1372.179]
+;W[mj]WL[1708.253]
+(;B[pi]BL[1335.095]
+;W[qh]WL[1699.804]
+;B[nk]BL[1322.696]
+;W[mk]WL[1695.324]
+;B[nl]BL[1316.535]
+;W[nb]WL[1692.274]
+(;B[lg]BL[1260.871]
+;W[oc]WL[1688.848]
+;B[od]BL[1242.336]
+;W[rd]WL[1671.119]
+;B[rc]BL[1234.655]
+;W[qd]WL[1631.976]
+;B[pc]BL[1215.653]
+;W[jh]WL[1623.748]
+;B[ke]BL[1158.991]C[Lyonweiqi [3p\]: good move
+]
+;W[le]WL[1605.927]
+(;B[hb]BL[1004.068]
+(;W[kf]WL[1604.008]
+;B[sd]BL[968.453]
+;W[rj]WL[1588.074]
+;B[ob]BL[942.892]
+;W[nc]WL[1548.59]
+;B[pa]BL[910.684]
+;W[fh]WL[1534.616]
+;B[eg]BL[891.145]
+;W[bj]WL[1500.939]
+(;B[bh]BL[844.723]
+;W[jr]WL[1482.925]
+(;B[kq]BL[796.567]
+;W[kr]WL[1466.684]
+;B[mr]BL[724.421]
+;W[iq]WL[1380.037]
+;B[ip]BL[636.941]
+;W[lr]WL[1367.688]
+;B[mq]BL[567.264]
+;W[hp]WL[1328.418]
+;B[lq]BL[472.839]
+;W[er]WL[1320.376]
+;B[dr]BL[448.576]
+;W[bn]WL[1309.513]
+;B[bo]BL[434.143]
+(;W[dn]WL[1276.328]
+(;B[do]BL[375.837]
+;W[cm]WL[1262.869]
+;B[co]BL[361.271]
+;W[ml]WL[1260.164]
+;B[om]BL[339.055]
+;W[pl]WL[1251.491]
+;B[jn]BL[254.788]
+;W[ln]WL[1248.941]
+(;B[lo]BL[237.929]
+;W[kn]WL[1222.745]
+;B[ko]BL[227.011]
+;W[jm]WL[1180.478]
+(;B[nm]BL[178.299]
+;W[gj]WL[1166.045]
+;B[km]BL[160.299]
+;W[mn]WL[1149.278]
+;B[jl]BL[115.711]
+;W[im]WL[1125.917]
+;B[in]BL[101.518]
+;W[kl]WL[1114.574]C[Lyonweiqi [3p\]: this is sente
+]
+;B[on]BL[56.372]
+;W[hm]WL[1086.202]
+;B[lh]BL[50.896]
+;W[ki]WL[1070.21]
+;B[hg]BL[284.374]
+;W[fi]WL[1061.68]
+(;B[dk]BL[271.446]
+;W[di]WL[1020.039]
+;B[ci]BL[258.606]
+;W[dh]WL[990.155]
+;B[dg]BL[237.144]
+;W[cj]WL[981.267]C[ken1jf [8k\]: made my own problem :-)
+]
+;B[cg]BL[209.87]
+;W[sc]WL[928.799]
+;B[se]BL[186.615]
+;W[rf]WL[904.497]
+(;B[ra]BL[152.483]
+;W[ne]WL[888.172]
+;B[pf]BL[127.847]C[ken1jf [8k\]: yes
+]
+;W[sb]WL[884.332]
+;B[qb]BL[74.94]
+;W[hf]WL[878.337]
+;B[gg]BL[47.495]
+;W[hi]WL[871.904]
+(;B[if]BL[339.041]
+;W[ig]WL[838.656]
+;B[jg]BL[315.589]
+;W[ih]WL[830.654]
+;B[jf]BL[300.136]
+;W[kg]WL[814.469]
+;B[kh]BL[271.272]
+;W[lf]WL[801.822]
+;B[li]BL[263.678]
+;W[lj]WL[773.865]
+;B[md]BL[233.808]
+;W[ld]WL[761.059]
+;B[na]BL[223.917]
+;W[kb]WL[745.159]
+;B[ib]BL[185.832]
+;W[jb]WL[742.798]
+;B[hc]BL[173.944]C[Lyonweiqi [3p\]: gote
+Lyonweiqi [3p\]: misread
+]
+;W[ds]WL[716.992]
+;B[cs]BL[163.711]
+;W[es]WL[715.586]
+;B[eq]BL[159.091]
+(;W[gr]WL[700.718]
+;B[br]BL[147.362]
+;W[pr]WL[684.801]
+;B[or]BL[143.804]
+;W[qs]WL[683.256]
+(;B[ns]BL[107.484]C[Lyonweiqi [3p\]: a bit more than 1.5hs
+Lyonweiqi [3p\]: how long you want take lesson for today?
+ken1jf [8k\]: 2 hr?
+]
+;W[en]WL[646.7]C[Lyonweiqi [3p\]: k
+]
+;B[ma]BL[71.517]
+;W[lb]WL[632.574]
+;B[rb]BL[57.957]C[Lyonweiqi [3p\]: toitle 3 mins?
+]
+;W[sf]WL[620.296]C[Lyonweiqi [3p\]: excuse me
+]
+;B[sa]BL[651.962]
+;W[pk]WL[602.913]C[Lyonweiqi [3p\]: bathroom 3 mins
+]
+(;B[re]BL[613.847]C[ken1jf [8k\]: ok
+]
+;W[qe]WL[192.482]C[Lyonweiqi [3p\]: sry
+]
+;B[sc]BL[608.423]C[Lyonweiqi [3p\]: i will give 10 mins back
+Lyonweiqi [3p\]: i leave 7 mins
+]
+;W[bm]WL[167.86]C[Lyonweiqi [3p\]: no comments
+ken1jf [8k\]: ok, thank you
+Lyonweiqi [3p\]: enjoy?
+Lyonweiqi [3p\]: a bit more than 2h
+ken1jf [8k\]: yes!
+Lyonweiqi [3p\]: but 2 hours
+ken1jf [8k\]: but 8 is harder than 9
+Lyonweiqi [3p\]: sure
+Lyonweiqi [3p\]: less one stone
+Lyonweiqi [3p\]: have you done the hw now?
+ken1jf [8k\]: yes, I sent it back
+Lyonweiqi [3p\]: i checked
+Lyonweiqi [3p\]: i think
+Lyonweiqi [3p\]: one more?
+ken1jf [8k\]: answer to T4
+Lyonweiqi [3p\]: when you want have new lesson?
+ken1jf [8k\]: thursday?
+ken1jf [8k\]: 8 pm
+Lyonweiqi [3p\]: k
+Lyonweiqi [3p\]: make new homework
+]
+;B[hn]BL[598.524]
+;W[gn]WL[164.4]
+;B[jq]BL[574.446]
+;W[ir]WL[153.032]
+;B[ho]BL[566.118]
+;W[go]WL[138.817]
+;B[ge]BL[539.732]
+;W[ie]WL[114.333]
+;B[hh]BL[499.318]
+;W[ji]WL[96.208]
+;B[mm]BL[491.86]
+;W[lm]WL[87.778]
+;B[qi]BL[488.273]C[Lyonweiqi [3p\]: time please
+]
+;W[ri]WL[74.517]C[Lyonweiqi [3p\]: add it for me thx
+Lyonweiqi [3p\]: :)
+]
+;B[eh]BL[466.805]
+;W[ei]WL[368.731]
+;B[an]BL[451.494]
+;W[am]WL[364.018]
+;B[ao]BL[449.487]
+;W[ai]WL[354.192]
+;B[ah]BL[433.599]
+;W[fg]WL[345.579]
+;B[gf]BL[412.716]
+;W[ef]WL[338.208]
+;B[bf]BL[401.966]
+(;W[bi]WL[321.801]C[Lyonweiqi [3p\]: sente
+]
+;B[ee]BL[360.995]
+;W[qj]WL[295.297]
+;B[gh]BL[348.17]
+;W[gi]WL[289.306]
+;B[oj]BL[341.24]
+;W[eo]WL[266.062]
+;B[ia]BL[303.163]
+;W[ls]WL[252.453]
+;B[ms]BL[267.689]
+;W[ps]WL[241.648]
+;B[pg]BL[252.061]
+;W[qg]WL[233.438]
+;B[rh]BL[191.308]
+;W[sh]WL[224.33]
+;B[la]BL[154.712]
+;W[]WL[206.424]
+;B[]BL[154.71]TW[jc][kc][jd][kd][je][ke][if][jf][jg][rg][sg][rh][ii][si][aj][dj][ej][fj][hj][ij][jj][kj][sj][ak][bk][ck][dk][ek][fk][gk][hk][ik][jk][kk][lk][qk][rk][sk][al][bl][dl][fl][hl][il][jl][ll][ql][rl][sl][dm][em][fm][gm][km][qm][sm][fn][rn][sn][fo][so][rp][sp][gq][hq][rq][sq][fr][hr][qr][rr][sr][fs][gs][hs][is][js][ks][rs][ss]TB[aa][ba][ca][da][ea][fa][ga][ha][oa][qa][ab][bb][cb][eb][fb][pb][sb][ac][bc][cc][dc][ec][fc][gc][ad][bd][ed][ae][be][fe][af][ag][bg][io][jo][ap][bp][cp][kp][lp][mp][np][op][aq][bq][cq][nq][oq][ar][cr][nr][as][bs]C[Lyonweiqi [3p\]: review?
+ken1jf [8k\]: center got big
+])
+(;W[bi]WL[328.206]
+;B[gh]BL[367.343]C[Lyonweiqi [3p\]: ?
+]))
+(;B[bm]
+;W[bl]
+;B[an]C[Lyonweiqi [3p\]: bigger
+]))
+(;B[os]))
+(;W[cr]
+;B[fr]
+;W[bs]C[Lyonweiqi [3p\]: i can play like that
+ken1jf [8k\]: yes
+]))
+(;B[jg]
+;W[jf]
+;B[ih]
+;W[ii]
+;B[kh]
+;W[ji]
+;B[ib]
+;W[jc]
+;B[kb]
+;W[kc]
+;B[ir]
+;W[jq]
+;B[gr]C[Lyonweiqi [3p\]: you can let w in trouble at g2
+]
+;W[hs]
+;B[fr]
+;W[eq]
+;B[es]
+;W[fs]
+;B[gs]
+;W[is]
+;B[ds]C[Lyonweiqi [3p\]: big yose
+ken1jf [8k\]: nice
+]))
+(;B[rb]C[Lyonweiqi [3p\]: remember this one
+]
+;W[na]
+;B[qa]C[Lyonweiqi [3p\]: better
+]))
+(;B[cj]C[Lyonweiqi [3p\]: you didnt know have problem here
+]))
+(;B[mn]
+;W[mm]
+;B[nm]C[Lyonweiqi [3p\]: you should take it
+]))
+(;B[mm]
+;W[mn]
+;B[nm]
+;W[lm]
+;B[on]
+;W[jl]))
+(;B[cm]
+;W[dm]
+;B[bm]C[Lyonweiqi [3p\]: the best way for yose
+]))
+(;W[dn]WL[1277.075]
+;B[om]BL[406.498]C[Lyonweiqi [3p\]: c5 is too big?
+]))
+(;B[jq]
+;W[ir]
+;B[hp]
+;W[lq]
+;B[mr]
+;W[mq]
+;B[nr]
+;W[or]
+;B[pr]
+;W[oq]
+;B[os]
+;W[lr]
+;B[ns]
+;W[lo]
+;B[ko]
+;W[ln]
+;B[lp]
+;W[mp]
+;B[kp]
+;W[mn]
+;B[om]
+;W[on]C[Lyonweiqi [3p\]: danger
+Lyonweiqi [3p\]: so k2 is big problem for w
+]))
+(;B[bi]
+;W[cj]
+;B[di]C[Lyonweiqi [3p\]: good in yose
+]))
+(;W[kf]WL[1578.914]
+;B[jb]BL[915.956]C[Lyonweiqi [3p\]: your dragon?
+ken1jf [8k\]: P 14 grroup?
+Lyonweiqi [3p\]: yes
+]))
+(;B[kf]
+;W[hb]
+;B[mc]
+;W[mb]
+;B[kc]C[Lyonweiqi [3p\]: w have weak ness
+]))
+(;B[ri]
+;W[rd]
+;B[rc]
+;W[qd]
+;B[pe]
+;W[rh]
+;B[rj]
+;W[og]
+;B[nf]
+;W[rg]
+;B[kg]C[Lyonweiqi [3p\]: w can alive
+]))
+(;B[nk]
+;W[rj]C[Lyonweiqi [3p\]: q11 is a bad exchange
+]))
+(;B[oh]
+;W[oi]
+;B[pi]
+;W[qh]
+;B[nh]
+;W[oj]
+;B[ok]
+;W[mi]
+;B[pl]C[Lyonweiqi [3p\]: w not easy for this battle
+]))
+(;B[ld]
+;W[kc]
+;B[kd]
+;W[je]
+;B[mc]))
+(;B[jc]
+;W[hd]
+;B[gc]
+;W[if]
+;B[kf]C[ken1jf [8k\]: much better
+Lyonweiqi [3p\]: yes
+]))
+(;B[bj]C[Lyonweiqi [3p\]: you can capture more
+]))
+(;B[om]))
+(;B[pn]C[Lyonweiqi [3p\]: g3 is strange move
+Lyonweiqi [3p\]: q6 is much better
+ken1jf [8k\]: ok
+ken1jf [8k\]: k3?
+]
+;W[jq]
+;B[kq]
+;W[kp]
+;B[lq]
+;W[jo]
+;B[ip]
+;W[iq]
+;B[hp]
+;W[hq]
+;B[mp]
+;W[ko]
+;B[gp]C[Lyonweiqi [3p\]: not bad for you fight
+]))

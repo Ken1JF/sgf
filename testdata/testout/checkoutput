@@ -1,0 +1,23 @@
+cd ../
+echo Checking output .sgf files
+for fil in *.sgf ;
+do
+echo   checking ./$fil  ./testout/$fil
+/Users/ken/Projects/diffsgf/build/Release/diffsgf ./$fil  ./testout/$fil
+done
+echo 
+echo Checking .txt files
+echo 
+for fil in *.sgf ;
+do
+echo   checking ./txt_out/$fil.txt and ./autxt_out/$fil.txt
+diff ./txt_out/$fil.txt ./autxt_out/$fil.txt
+done
+echo 
+echo Checking .png files
+echo 
+for fil in *.sgf ;
+do
+echo   checking ./pngs/${fil}_SGF.png and ./aupngs/${fil}_SGF.png
+diff ./pngs/${fil}_SGF.png ./aupngs/${fil}_SGF.png
+done
