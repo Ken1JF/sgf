@@ -1388,7 +1388,7 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 			col, _ = strconv.Atoi(string(pv.StrValue))
 			row = col
 		}
-		p.InitAbstHier(ah.ColValue(col), ah.RowValue(row), ah.StringLevel, p.play) // TODO: vary this?
+		p.InitAbstHier(ah.ColSize(col), ah.RowSize(row), ah.StringLevel, p.play) // TODO: vary this?
 		// record the property:
 		p.addProp(ret, pv)
 

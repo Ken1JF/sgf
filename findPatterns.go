@@ -36,7 +36,7 @@ type traversePoint struct {
 //		Does not include handicap or other pre-placed stones.
 //
 // returns an Error if one is detected, a translation that takes the first move into a canonical location, and the updated pattTree
-func (gamT *GameTree) AddTeachingPattern(szCol ah.ColValue, szRow ah.RowValue, ha int, pattTree *GameTree,
+func (gamT *GameTree) AddTeachingPattern(szCol ah.ColSize, szRow ah.RowSize, ha int, pattTree *GameTree,
 	pattType ah.PatternType, moveLimit int, patternLimit int, skipFiles int) (err ah.ErrorList, trans ah.BoardTrans, upPattTree *GameTree) {
 	var collPatt, gInfoPatt TreeNodeIdx
 	var curGam, curPatt TreeNodeIdx

@@ -146,8 +146,8 @@ func printInitBoard(abhr *ah.AbstHier, title string) {
 	var r ah.RowValue
 	nCol, nRow := abhr.GetSize()
 	fmt.Println(title, "Board", int(nCol), "by", int(nRow))
-	for r = 0; r < nRow; r++ {
-		for c = 0; c < nCol; c++ {
+	for r = 0; ah.RowSize(r) < nRow; r++ {
+		for c = 0; ah.ColSize(c) < nCol; c++ {
 			bp := abhr.Graphs[ah.PointLevel].GetPoint(c, r)
 			hs := bp.GetNodeHighState()
 			if hs == uint16(ah.White) {
@@ -187,14 +187,14 @@ func printBrds(msg string, brd *ah.AbstHier, newBrd *ah.AbstHier, tName string) 
 	var r ah.RowValue
 	nCol, nRow := brd.GetSize()
 	fmt.Println("Board size", int(nCol), "by", int(nRow), "after", tName)
-	for r = 0; r < nRow; r++ {
-		for c = 0; c < nCol; c++ {
+	for r = 0; ah.RowSize(r) < nRow; r++ {
+		for c = 0; ah.ColSize(c) < nCol; c++ {
 			bp := brd.Graphs[ah.PointLevel].GetPoint(c, r)
 			ch := bp.GetNodeLowState()
 			fmt.Printf("%c", byte(ch))
 		}
 		fmt.Print(" | ")
-		for c = 0; c < nCol; c++ {
+		for c = 0; ah.ColSize(c) < nCol; c++ {
 			nbp := newBrd.Graphs[ah.PointLevel].GetPoint(c, r)
 			ch := nbp.GetNodeLowState()
 			fmt.Printf("%c", byte(ch))
@@ -216,8 +216,8 @@ func SetUpTestBoard(N int, brd *ah.AbstHier, data *[]string) {
 // Test the transformation logic
 func ExampleTestTrans() {
 	// Set up the test data boards.
-	var col ah.ColValue
-	var row ah.RowValue
+	var col ah.ColSize
+	var row ah.RowSize
 	for size := 5; size <= 19; size += 2 {
 		switch size {
 		case 5:
@@ -656,8 +656,8 @@ func differBrds(brd1, brd2 *ah.AbstHier) (ret bool) {
 	if (nCol != nCol2) || (nRow != nRow2) {
 		ret = true
 	} else {
-		for r = 0; r < nRow; r++ {
-			for c = 0; c < nCol; c++ {
+		for r = 0; ah.RowSize(r) < nRow; r++ {
+			for c = 0; ah.ColSize(c) < nCol; c++ {
 				nl := ah.MakeNodeLoc(c, r)
 				bp1 := &brd1.Graphs[ah.PointLevel].Nodes[nl]
 				bp2 := &brd2.Graphs[ah.PointLevel].Nodes[nl]
@@ -681,8 +681,8 @@ func checkHandicapBrds(brd1, brd2 *ah.AbstHier) (ret bool) {
 	if (nCol != nCol2) || (nRow != nRow2) {
 		ret = true
 	} else {
-		for r = 0; r < nRow; r++ {
-			for c = 0; c < nCol; c++ {
+		for r = 0; ah.RowSize(r) < nRow; r++ {
+			for c = 0; ah.ColSize(c) < nCol; c++ {
 				nl := ah.MakeNodeLoc(c, r)
 				bp1 := &brd1.Graphs[ah.PointLevel].Nodes[nl]
 				bp2 := &brd2.Graphs[ah.PointLevel].Nodes[nl]
