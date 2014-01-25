@@ -9,10 +9,11 @@ import (
 	"strings"
 )
 
-//const defaultSpecFile = "/Users/ken/Projects/abst-hier/src/github.com/Ken1JF/ahgo/sgf_properties_spec.txt"
+//const SGFDir = "/Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testdata"
+const SGFDir = "./testdata"
+const OutDir = "./testout"
 
-const SGFDir = "/Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testdata"
-const OutDir = "/Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testout"
+//const OutDir = "/Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testout"
 
 // count should be 56 with all tests included.
 // One test currently in "WorkOnLater"
@@ -64,7 +65,7 @@ func ExampleReadWriteSGFFile() {
 	}
 
 	// Output:
-	// Reading SGF Tests, SGFDir = /Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testdata , outDir = /Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testout
+	// Reading SGF Tests, SGFDir = ./testdata , outDir = ./testout
 	// Processing: 0.sgf
 	// Processing: 0A.sgf
 	// Processing: 0B.sgf
@@ -79,7 +80,7 @@ func ExampleReadWriteSGFFile() {
 	// Processing: 0M.sgf
 	// Processing: 1.sgf
 	// Processing: 10.sgf
-	// /Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testdata/10.sgf:1:33: Unknown SGF property: WHAT:bb
+	// ./testdata/10.sgf:1:33: Unknown SGF property: WHAT:bb
 	// Processing: 1000.sgf
 	// Processing: 1001.sgf
 	// Processing: 1002.sgf
@@ -121,7 +122,7 @@ func ExampleReadWriteSGFFile() {
 	// Processing: Lyonweiqi.sgf
 	// Processing: print1.sgf
 	// Processing: print2.sgf
-	// Abstraction Hierarchy: /Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testdata/print2.sgf
+	// Abstraction Hierarchy: ./testdata/print2.sgf
 	// Level 1
 	// Black nodes
 	// 57:1,1 1-mem:(Q,16):1:1,adj:270(1),269(1),164(1),252(1),

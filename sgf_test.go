@@ -32,7 +32,7 @@ func ExampleSGFTypeSizes() {
 	// Type Result size 64 alignment 8
 }
 
-var defaultSpecFile = "/Users/ken/Projects/abst-hier/src/github.com/Ken1JF/ahgo/sgf_properties_spec.txt"
+var defaultSpecFile = "../sgf_properties_spec.txt"
 
 func ExampleTheProperties_tt() {
 	err := SetupSGFProperties(defaultSpecFile, true, true)
