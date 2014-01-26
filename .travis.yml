@@ -8,6 +8,8 @@ before_install:
   - go get code.google.com/p/go.tools/cmd/cover
   - go get github.com/axw/gocov/gocov
   - go get github.com/mattn/goveralls
+  - go get gitHub.com/Ken1JF/ahgo/ah
+  - go get gitHub.com/Ken1JF/ahgo/sgf
 install:
   - go install gitHub.com/Ken1JF/ahgo/ah
   - go install gitHub.com/Ken1JF/ahgo/sgf
