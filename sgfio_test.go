@@ -9,11 +9,8 @@ import (
 	"strings"
 )
 
-//const SGFDir = "/Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testdata"
 const SGFDir = "./testdata"
 const OutDir = "./testout"
-
-//const OutDir = "/Users/ken/Projects/abst-hier/src/gitHub.com/Ken1JF/ahgo/sgf/testout"
 
 // count should be 56 with all tests included.
 // One test currently in "WorkOnLater"
