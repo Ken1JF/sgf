@@ -1,0 +1,13 @@
+language: go
+go:
+  - tip
+  - go1.2
+  - go1.1
+before_install:
+  - go get github.com/mattn/gom
+  - go get code.google.com/p/go.tools/cmd/cover
+  - go get github.com/axw/gocov/gocov
+  - go get github.com/mattn/goveralls
+script:
+  - $HOME/gopath/bin/gom install -x
+  - if [ "x`go version | awk -F' ' '{print $3}'`" != "xgo1.1" ]; then $HOME/gopath/bin/gom test -cover; fi
