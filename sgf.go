@@ -1,5 +1,5 @@
 /*
- *  File:		src/gitHub.com/Ken1JF/ahgo/sgf/sgf.go
+ *  File:		src/gitHub.com/Ken1JF/sgf/sgf.go
  *  Project:	abst-hier
  *
  *  Created by Ken Friedenbach on 11/25/09.
@@ -20,7 +20,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"gitHub.com/Ken1JF/ahgo/ah"
+	"gitHub.com/Ken1JF/ah"
 	"io"
 	"os"
 	"strconv"

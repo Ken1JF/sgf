@@ -1,5 +1,5 @@
 /*
- *  File:		src/gitHub.com/Ken1JF/ahgo/sgf/game.go
+ *  File:		src/gitHub.com/Ken1JF/sgf/game.go
  *  Project:	abst-hier
  *
  *  Created by Ken Friedenbach on 2/11/2010.
@@ -12,7 +12,7 @@
 package sgf
 
 import (
-	"gitHub.com/Ken1JF/ahgo/ah"
+	"gitHub.com/Ken1JF/ah"
 	"strconv"
 )
 

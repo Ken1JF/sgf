@@ -1,5 +1,5 @@
 /*
- *  File:		src/gitHub.com/Ken1JF/ahgo/sgf/parser.go
+ *  File:		src/gitHub.com/Ken1JF/sgf/parser.go
  *  Project:	abst-hier
  *
  *  Created by Ken Friedenbach on 12/08/09.
@@ -22,7 +22,7 @@ package sgf
 import (
 	"bytes"
 	"fmt"
-	"gitHub.com/Ken1JF/ahgo/ah"
+	"gitHub.com/Ken1JF/ah"
 	"os"
 	"strconv"
 	"strings"

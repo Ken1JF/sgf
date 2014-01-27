@@ -1,5 +1,5 @@
 /*
- *  File:		src/gitHub.com/Ken1JF/ahgo/sgf/token.go
+ *  File:		src/gitHub.com/Ken1JF/sgf/token.go
  *  Project:	abst-hier
  *
  *  Created by Ken Friedenbach on 12/16/09.

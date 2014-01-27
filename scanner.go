@@ -1,5 +1,5 @@
 /*
- *  File:		src/gitHub.com/Ken1JF/ahgo/sgf/scanner.go
+ *  File:		src/gitHub.com/Ken1JF/sgf/scanner.go
  *  Project:	abst-hier
  *
  *  Created by Ken Friedenbach on 12/27/09.
@@ -20,7 +20,7 @@
 package sgf
 
 import (
-	"gitHub.com/Ken1JF/ahgo/ah"
+	"gitHub.com/Ken1JF/ah"
 	"strconv"
 	"unicode"
 	"unicode/utf8"

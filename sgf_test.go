@@ -2,7 +2,7 @@ package sgf_test
 
 import (
 	"fmt"
-	. "gitHub.com/Ken1JF/ahgo/sgf"
+	. "gitHub.com/Ken1JF/sgf"
 )
 
 func ExampleSGFTypeSizes() {

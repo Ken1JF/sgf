@@ -1,5 +1,5 @@
 /*
- *  File:		src/gitHub.com/Ken1JF/ahgo/sgf/tree.go
+ *  File:		src/gitHub.com/Ken1JF/sgf/tree.go
  *  Project:	abst-hier
  *
  *  Created by Ken Friedenbach on 12/08/09.
@@ -16,7 +16,7 @@ package sgf
 
 import (
 	"fmt"
-	"gitHub.com/Ken1JF/ahgo/ah"
+	"gitHub.com/Ken1JF/ah"
 	"strconv"
 )
 
