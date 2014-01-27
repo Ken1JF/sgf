@@ -1,5 +1,5 @@
 /*
- *  File:		src/gitHub.com/Ken1JF/sgf/printer.go
+ *  File:		src/github.com/Ken1JF/sgf/printer.go
  *  Project:	abst-hier
  *
  *  Created by Ken Friedenbach on 12/08/09.
@@ -14,7 +14,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"gitHub.com/Ken1JF/ah"
+	"github.com/Ken1JF/ah"
 	"os"
 	"strconv"
 	"strings"

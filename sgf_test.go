@@ -2,7 +2,7 @@ package sgf_test
 
 import (
 	"fmt"
-	. "gitHub.com/Ken1JF/sgf"
+	. "github.com/Ken1JF/sgf"
 )
 
 func ExampleSGFTypeSizes() {
@@ -32,7 +32,7 @@ func ExampleSGFTypeSizes() {
 	// Type Result size 64 alignment 8
 }
 
-var defaultSpecFile = "../sgf_properties_spec.txt"
+var defaultSpecFile = "../sgf/sgf_properties_spec.txt"
 
 func ExampleTheProperties_tt() {
 	err := SetupSGFProperties(defaultSpecFile, true, true)

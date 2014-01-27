@@ -1,5 +1,4 @@
 # File:		sgf/README
-# Project:	ahgo
 
 # Author:	Ken Friedenbach
 # Copyright, 2009-2014. 
@@ -10,7 +9,7 @@ The SGF - FF[4] file format is defined in:
 	http://www.red-bean.com/sgf/index.html
 
 The sgf definition (with extensions) in this project is contained in:
-	SGF_Properties_Spec.txt
+	sgf_properties_spec.txt
 
 The sgf package supports:
 	reading and writing SGF files
@@ -36,7 +35,7 @@ The package consists of the following files:
 	parser.go		- implements a Parser for SGF files
 	printer.go		- supports the writing of SGF files
 	scanner.go		- implements a Scanner for SGF files
-	sgf.go			- reads SGF_Properties_Spec.txt file and builds theProperties
+	sgf.go			- reads sgf_properties_spec.txt file and builds theProperties
 	token.go		- defines tokens in SGF files
 	tree.go			- defines the Nodes for SGF trees and ADG's
 

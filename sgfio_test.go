@@ -2,8 +2,8 @@ package sgf_test
 
 import (
 	"fmt"
-	"gitHub.com/Ken1JF/ah"
-	"gitHub.com/Ken1JF/sgf"
+	"github.com/Ken1JF/ah"
+	"github.com/Ken1JF/sgf"
 	"io"
 	"io/ioutil"
 	"strings"

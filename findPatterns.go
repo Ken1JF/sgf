@@ -1,5 +1,5 @@
 /*
- *  File:		src/gitHub.com/Ken1JF/sgf/findPatterns.go
+ *  File:		src/github.com/Ken1JF/sgf/findPatterns.go
  *  Project:	abst-hier
  *
  *  Created by Ken Friedenbach on 4/17/2011.
@@ -11,7 +11,7 @@
 package sgf
 
 import (
-	"gitHub.com/Ken1JF/ah"
+	"github.com/Ken1JF/ah"
 	"strconv"
 )
 
