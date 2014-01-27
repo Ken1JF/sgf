@@ -8,11 +8,8 @@ before_install:
   - go get code.google.com/p/go.tools/cmd/cover
   - go get github.com/axw/gocov/gocov
   - go get github.com/mattn/goveralls
-  - go get Ken1JF/ah
-  - go get Ken1JF/sgf
 install:
-  - go install Ken1JF/ah
-  - go install Ken1JF/sgf
+  - go get Ken1JF/ah
 script:
   - $HOME/gopath/bin/gom install -x
   - if [ "x`go version | awk -F' ' '{print $3}'`" != "xgo1.1" ]; then $HOME/gopath/bin/gom test -cover; fi
