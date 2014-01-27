@@ -444,6 +444,12 @@ func (p *Parser) parsePropValue(val PropValueType) (pv PropertyValue) {
 	return pv
 }
 
+// TODO: 
+//  1. these globals need to be collected into a struct.
+//  2. type Parser needs to have a pointer to this struct.
+//  3. Parser state includes a bool to indicate collecting or not.
+//  4. if collecting, if pointer nil, allocate.
+//  5. move all of this into another file: parsedb.go or something
 var ID_Counts ID_CountArray // TODO: what to do with these globals?
 var Unkn_Count int          // TODO: what to do with these globals?
 
