@@ -16,7 +16,7 @@ func ExampleSGFTypeSizes() {
 	// Type TreeNode size 12 alignment 2
 	// Type PropertyValue size 32 alignment 8
 	// Type GameTree size 1520 alignment 8
-	// Type Parser size 1848 alignment 8
+	// Type Parser size 1840 alignment 8
 	// Type PlayerInfo size 72 alignment 8
 	// Type FF4Note size 1 alignment 1
 	// Type SGFPropNodeType size 1 alignment 1

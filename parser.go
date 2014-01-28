@@ -29,15 +29,17 @@ import (
 	"unicode"
 )
 
+type ParserMode uint8
+
 // The mode parameter to the Parse* functions is a set of flags (or 0).
 // They control the amount of source code parsed and other optional
 // Parser functionality.
 
 const (
-	ParseComments uint = 1 << iota // parse comments and add them to tree
-	Trace                          // print a trace of parsed productions
-	Play                           // Do and Undo Board Moves while reading file
-	GoGoD                          // apply GoGoD error checks
+	ParseComments ParserMode = 1 << iota // parse comments and add them to tree
+	TraceParser                          // print a trace of parsed productions
+	ParserPlay                           // Do and Undo Board Moves while reading file
+	ParserGoGoD                          // apply GoGoD error checks
 )
 
 // The Parser structure holds the Parser's internal state,
@@ -54,10 +56,10 @@ type Parser struct {
 	scanner Scanner
 
 	// Tracing/debugging
-	mode   uint // parsing mode
-	trace  bool // == (mode & Trace != 0)
-	play   bool // == (mode & Play != 0)
-	indent uint // indentation used for tracing output
+	mode   ParserMode // parsing mode
+	trace  bool       // == (mode & TraceParser != 0)
+	play   bool       // == (mode & ParserPlay != 0)
+	indent uint       // indentation used for tracing output
 
 	// moveLimit, 0 => no moveLimit
 	moveLimit    int
@@ -103,7 +105,7 @@ func (p *Parser) addNode(par TreeNodeIdx, ty TreeNodeType) TreeNodeIdx {
 }
 
 // scannerMode returns the scanner mode bits given the Parser's mode bits.
-func scannerMode(mode uint) uint {
+func scannerMode(mode ParserMode) uint {
 	var m uint
 	if mode&ParseComments != 0 {
 		m |= ScanComments
@@ -138,7 +140,7 @@ func (p *Parser) next() {
 }
 
 // initParser must be called before a Parser can be used
-func (p *Parser) initParser(filename string, src []byte, mode uint, fileLimit int) {
+func (p *Parser) initParser(filename string, src []byte, mode ParserMode, fileLimit int) {
 
 	eh := func(pos ah.Position, msg string) { p.errors.Add(pos, msg) }
 
@@ -146,8 +148,8 @@ func (p *Parser) initParser(filename string, src []byte, mode uint, fileLimit in
 	p.mode = mode
 	p.moveLimit = fileLimit
 	// for convenience (used frequently)
-	p.trace = (mode&Trace != 0) || ah.GetAHTrace()
-	p.play = (mode&Play != 0)
+	p.trace = (mode&TraceParser != 0) || ah.GetAHTrace()
+	p.play = (mode&ParserPlay != 0)
 
 	p.next()
 	p.GameTree.initGameTree()
@@ -442,90 +444,6 @@ func (p *Parser) parsePropValue(val PropValueType) (pv PropertyValue) {
 		fmt.Printf("ValType: %s String: %s\n", ValueNames[pv.ValType], string(pv.StrValue))
 	}
 	return pv
-}
-
-// TODO: 
-//  1. these globals need to be collected into a struct.
-//  2. type Parser needs to have a pointer to this struct.
-//  3. Parser state includes a bool to indicate collecting or not.
-//  4. if collecting, if pointer nil, allocate.
-//  5. move all of this into another file: parsedb.go or something
-var ID_Counts ID_CountArray // TODO: what to do with these globals?
-var Unkn_Count int          // TODO: what to do with these globals?
-
-var HA_map map[string]int = make(map[string]int, 100) // TODO: what to do with these globals?
-var OH_map map[string]int = make(map[string]int, 100) // TODO: what to do with these globals?
-
-// Break RE into value and comment:
-var RE_map map[string]int = make(map[string]int, 100) // TODO: what to do with these globals?
-var RC_map map[string]int = make(map[string]int, 100) // TODO: what to do with these globals?
-
-var RU_map map[string]int = make(map[string]int, 100)     // TODO: what to do with these globals?
-var BWRank_map map[string]int = make(map[string]int, 100) // TODO: what to do with these globals?
-
-type PlayerInfo struct {
-	NGames    int
-	FirstGame string
-	FirstRank string
-	LastGame  string
-	LastRank  string
-}
-
-var BWPlayer_map map[string]PlayerInfo = make(map[string]PlayerInfo, 100) // TODO: what to do with these globals?
-
-func GameName(fileName string) string {
-	var name []byte
-	name = []byte(fileName)
-	i := bytes.LastIndex(name, []byte("/"))
-	name = name[i+1:]
-	i = bytes.Index(name, []byte(".sgf"))
-	if i > 0 {
-		name = name[0:i]
-	}
-	return string(name)
-}
-
-func check_OH(strVal []byte) (err string) {
-	s := string(strVal)
-	if s == "1" {
-		err = "check value: OH[1]"
-	}
-	/*
-		if s == "BWB" {
-			err = "check value: BWB (must be B?)"
-		}
-		if s == "BBW" {
-			err = "check value: BBW (must be B?)"
-		}
-		if s == "B2B" {
-			err = "check value: B2B (must be B?)"
-		}
-		if s == "2B2" {
-			err = "check value: 2B2 (must be 2?)"
-		}
-		if s == "233" {
-			err = "check value: 233 (must be 3?)"
-		}
-	*/
-	return err
-}
-
-func fix_OH(s []byte) []byte {
-	new_s := make([]byte, len(s))
-	j := 0
-	for _, b := range s {
-		if (b != '-') && (b != ' ') { // skip '-' and ' ' characters
-			if b == '{' { // change '{' to '('
-				b = '('
-			} else if b == '}' { // change '}' to ')'
-				b = ')'
-			}
-			new_s[j] = b
-			j += 1
-		}
-	}
-	new_s = new_s[0:j]
-	return new_s
 }
 
 func TakeOutNum(RE_com []byte) (bas []byte, n int, sep byte, both bool) {

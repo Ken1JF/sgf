@@ -83,7 +83,7 @@ func readSource(filename string, src interface{}) ([]byte, ah.ErrorList) {
 // errors were found, the result is a partial tree (with TreeNode.BadX Nodes
 // representing the fragments of erroneous SGF file). Multiple errors
 // are returned via a Scanner.ErrorList which is sorted by file position.
-func ParseFile(filename string, src interface{}, mode uint, moveLimit int) (*Parser, ah.ErrorList) {
+func ParseFile(filename string, src interface{}, mode ParserMode, moveLimit int) (*Parser, ah.ErrorList) {
 	var p Parser
 	var errL ah.ErrorList
 

@@ -44,7 +44,7 @@ func ExampleReadWriteSGFFile() {
 					return
 				}
 				//			prsr , errL := sgf.ParseFile(fileName, b, sgf.ParseComments, 0)
-				prsr, errL := sgf.ParseFile(fileName, b, sgf.ParseComments+sgf.Play, 0)
+				prsr, errL := sgf.ParseFile(fileName, b, sgf.ParseComments+sgf.ParserPlay, 0)
 				if len(errL) != 0 {
 					fmt.Println("Error while parsing:", fileName, ", ", errL.Error())
 					return
