@@ -242,17 +242,11 @@ func (gam *GameTree) DoAW(p ah.NodeLoc, doPlay bool) (err ah.ErrorList) {
 
 func (gam *GameTree) DoB(nl ah.NodeLoc, doPlay bool) (movN int, err ah.ErrorList) {
 	movN, err = gam.DoBoardMove(nl, ah.Black, doPlay)
-	if movN == 1 {
-		gam.SetPlayerRank()
-	}
 	return movN, err
 }
 
 func (gam *GameTree) DoW(nl ah.NodeLoc, doPlay bool) (movN int, err ah.ErrorList) {
 	movN, err = gam.DoBoardMove(nl, ah.White, doPlay)
-	if movN == 1 {
-		gam.SetPlayerRank()
-	}
 	return movN, err
 }
 

@@ -40,6 +40,7 @@ const (
 	TraceParser                          // print a trace of parsed productions
 	ParserPlay                           // Do and Undo Board Moves while reading file
 	ParserGoGoD                          // apply GoGoD error checks
+	ParserDbStat                         // count DataBase statistics
 )
 
 // The Parser structure holds the Parser's internal state,
@@ -59,7 +60,10 @@ type Parser struct {
 	mode   ParserMode // parsing mode
 	trace  bool       // == (mode & TraceParser != 0)
 	play   bool       // == (mode & ParserPlay != 0)
-	indent uint       // indentation used for tracing output
+	dbstat bool       // == (mode & ParserDbStat !=0)
+	indent uint8      // indentation used for tracing output
+
+	DBStats *DBStatistics
 
 	// moveLimit, 0 => no moveLimit
 	moveLimit    int
@@ -150,6 +154,14 @@ func (p *Parser) initParser(filename string, src []byte, mode ParserMode, fileLi
 	// for convenience (used frequently)
 	p.trace = (mode&TraceParser != 0) || ah.GetAHTrace()
 	p.play = (mode&ParserPlay != 0)
+	p.dbstat = (mode&ParserDbStat != 0)
+	if p.dbstat { // is this parser supposed to keep statistics?
+		if theDBStatistics == nil { // is this the first? allocate and initialize
+			theDBStatistics = new(DBStatistics)
+			theDBStatistics.initStats()
+		}
+		p.DBStats = theDBStatistics // all parsers share the globals
+	}
 
 	p.next()
 	p.GameTree.initGameTree()
@@ -207,7 +219,7 @@ func (p *Parser) expect2(tok1, tok2 Token) ah.Position {
 func (p *Parser) printTrace(a ...interface{}) {
 	const dots = ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . " +
 		". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
-	const n = uint(len(dots))
+	const n = uint8(len(dots))
 	fmt.Printf("%5d:%3d: ", p.pos.Line, p.pos.Column)
 	i := 2 * p.indent
 	for ; i > n; i -= n {
@@ -783,10 +795,12 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 	idx := pv.PropType
 	//	fmt.Println("Node", nodd, "idx", idx, "Description", GetProperty(idx).Description);
 	//	os.Exit(998)
-	if idx >= 0 {
-		ID_Counts[idx] += 1
-	} else {
-		Unkn_Count += 1
+	if p.dbstat {
+		if idx >= 0 {
+			p.DBStats.ID_Counts[idx] += 1
+		} else {
+			p.DBStats.Unkn_Count += 1
+		}
 	}
 	switch idx {
 
@@ -928,6 +942,9 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 		} else {
 			p.treeNodes[ret].propListOrNodeLoc = PropIdx(mov)
 			movN, err := p.DoB(mov, p.play)
+			if movN == 1 && p.dbstat {
+				p.SetPlayerRank()
+			}
 			if len(err) != 0 {
 				p.warnings.Add(p.pos, err.Error()+" B["+string(pv.StrValue)+"]")
 			}
@@ -949,17 +966,19 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 		p.addProp(ret, pv)
 
 	case BR_idx:
-		// count the BR values:
-		idx := string(pv.StrValue)
-		n, _ := BWRank_map[idx]
-		BWRank_map[idx] = n + 1
-		// check the rank
-		errStr := check_Rank(pv.StrValue)
-		if errStr != "" {
-			p.ReportException(BR_idx, pv.StrValue, errStr)
-		}
 		// set the board BR:
 		p.SetBR(pv.StrValue)
+		if p.dbstat {
+			// count the BR values:
+			idx := string(pv.StrValue)
+			n, _ := p.DBStats.BWRank_map[idx]
+			p.DBStats.BWRank_map[idx] = n + 1
+			// check the rank
+			errStr := check_Rank(pv.StrValue)
+			if errStr != "" {
+				p.ReportException(BR_idx, pv.StrValue, errStr)
+			}
+		}
 		// record the property:
 		p.addProp(ret, pv)
 
@@ -1053,8 +1072,10 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 	case HA_idx:
 		// count the HA values:
 		idx := string(pv.StrValue)
-		n, _ := HA_map[idx]
-		HA_map[idx] = n + 1
+		if p.dbstat {
+			n, _ := p.DBStats.HA_map[idx]
+			p.DBStats.HA_map[idx] = n + 1
+		}
 		// set the board HA:
 		i, err := strconv.Atoi(idx)
 		if err != nil {
@@ -1136,8 +1157,10 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 			p.ReportException(OH_idx, pv.StrValue, errStr)
 		}
 		idx := string(strVal)
-		n, _ := OH_map[idx]
-		OH_map[idx] = n + 1
+		if p.dbstat {
+			n, _ := p.DBStats.OH_map[idx]
+			p.DBStats.OH_map[idx] = n + 1
+		}
 		// set the board OH:
 		p.SetOH(strVal)
 		// record the property:
@@ -1156,23 +1179,25 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 		p.addProp(ret, pv)
 
 	case PB_idx:
-		// count the Player values:
-		idx := string(pv.StrValue)
-		n, _ := BWPlayer_map[idx]
-		n.NGames += 1
-		if n.FirstGame == "" {
-			n.FirstGame = GameName(p.pos.Filename)
-			p.GameTree.setFirstBRank = true
-		}
-		n.LastGame = GameName(p.pos.Filename)
-		BWPlayer_map[idx] = n
-		// check the name
-		errStr := check_Name(pv.StrValue)
-		if errStr != "" {
-			p.ReportException(PB_idx, []byte(""), errStr)
-		}
 		// set the board PB:
 		p.SetPB(pv.StrValue)
+		if p.dbstat {
+			// count the Player values:
+			idx := string(pv.StrValue)
+			n, _ := p.DBStats.BWPlayer_map[idx]
+			n.NGames += 1
+			if n.FirstGame == "" {
+				n.FirstGame = GameName(p.pos.Filename)
+				p.GameTree.setFirstBRank = true
+			}
+			n.LastGame = GameName(p.pos.Filename)
+			p.DBStats.BWPlayer_map[idx] = n
+			// check the name
+			errStr := check_Name(pv.StrValue)
+			if errStr != "" {
+				p.ReportException(PB_idx, []byte(""), errStr)
+			}
+		}
 		// record the property:
 		p.addProp(ret, pv)
 
@@ -1191,43 +1216,49 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 		p.addProp(ret, pv)
 
 	case PW_idx:
-		// count the Player values:
-		idx := string(pv.StrValue)
-		n, _ := BWPlayer_map[idx]
-		n.NGames += 1
-		if n.FirstGame == "" {
-			n.FirstGame = GameName(p.pos.Filename)
-			p.GameTree.setFirstWRank = true
-		}
-		n.LastGame = GameName(p.pos.Filename)
-		BWPlayer_map[idx] = n
-		// check the name
-		errStr := check_Name(pv.StrValue)
-		if errStr != "" {
-			p.ReportException(PW_idx, []byte(""), errStr)
-		}
 		// set the board PW:
 		p.SetPW(pv.StrValue)
+		if p.dbstat {
+			// count the Player values:
+			idx := string(pv.StrValue)
+			n, _ := p.DBStats.BWPlayer_map[idx]
+			n.NGames += 1
+			if n.FirstGame == "" {
+				n.FirstGame = GameName(p.pos.Filename)
+				p.GameTree.setFirstWRank = true
+			}
+			n.LastGame = GameName(p.pos.Filename)
+			p.DBStats.BWPlayer_map[idx] = n
+			// check the name
+			errStr := check_Name(pv.StrValue)
+			if errStr != "" {
+				p.ReportException(PW_idx, []byte(""), errStr)
+			}
+		}
 		// record the property:
 		p.addProp(ret, pv)
 
 	case RE_idx:
 		// separate RE and RC (Result Comment)
 		RE_val, RE_com := SplitRE(pv.StrValue)
-		// count the RE values:
-		idx := string(RE_val)
-		n, _ := RE_map[idx]
-		RE_map[idx] = n + 1
-		errStr := check_RE(RE_val)
-		if errStr != "" {
-			p.ReportException(RE_idx, RE_val, errStr)
+		if p.dbstat {
+			// count the RE values:
+			idx := string(RE_val)
+			n, _ := p.DBStats.RE_map[idx]
+			p.DBStats.RE_map[idx] = n + 1
+			errStr := check_RE(RE_val)
+			if errStr != "" {
+				p.ReportException(RE_idx, RE_val, errStr)
+			}
 		}
 		// count the RE comments:
 		RE_bas, n, ch, both := TakeOutNum(RE_com)
-		if len(RE_bas) > 0 {
-			idx2 := string(RE_bas)
-			n, _ := RC_map[idx2]
-			RC_map[idx2] = n + 1
+		if p.dbstat {
+			if len(RE_bas) > 0 {
+				idx2 := string(RE_bas)
+				n, _ := p.DBStats.RC_map[idx2]
+				p.DBStats.RC_map[idx2] = n + 1
+			}
 		}
 		// set the board RE:
 		p.SetRE(RE_val, RE_bas, n, ch, both)
@@ -1243,8 +1274,10 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 	case RU_idx:
 		// count the RU values:
 		idx := string(pv.StrValue)
-		n, _ := RU_map[idx]
-		RU_map[idx] = n + 1
+		if p.dbstat {
+			n, _ := p.DBStats.RU_map[idx]
+			p.DBStats.RU_map[idx] = n + 1
+		}
 		// set the board RU:
 		p.SetRU(pv.StrValue)
 		// record the property:
@@ -1457,6 +1490,9 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 			if len(err) != 0 {
 				p.warnings.Add(p.pos, err.Error()+" W["+string(pv.StrValue)+"]")
 			}
+			if movN == 1 && p.dbstat {
+				p.SetPlayerRank()
+			}
 			if (p.moveLimit > 0) && (movN >= p.moveLimit) {
 				p.limitReached = true
 				if p.trace {
@@ -1483,17 +1519,19 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 		p.addProp(ret, pv)
 
 	case WR_idx:
-		// count the WR values:
-		idx := string(pv.StrValue)
-		n, _ := BWRank_map[idx]
-		BWRank_map[idx] = n + 1
-		// check the rank
-		errStr := check_Rank(pv.StrValue)
-		if errStr != "" {
-			p.ReportException(WR_idx, pv.StrValue, errStr)
-		}
 		// set the board WR:
 		p.SetWR(pv.StrValue)
+		if p.dbstat {
+			// count the WR values:
+			idx := string(pv.StrValue)
+			n, _ := p.DBStats.BWRank_map[idx]
+			p.DBStats.BWRank_map[idx] = n + 1
+			// check the rank
+			errStr := check_Rank(pv.StrValue)
+			if errStr != "" {
+				p.ReportException(WR_idx, pv.StrValue, errStr)
+			}
+		}
 		// record the property:
 		p.addProp(ret, pv)
 
@@ -1518,38 +1556,6 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 		p.errors.Add(p.pos, "Not Implemented: "+"default:")
 	}
 	return ret
-}
-
-// SetPlayerRank
-func (gam *GameTree) SetPlayerRank() {
-	// set the rank for the black name
-	bn := gam.GetPB()
-	if bn != nil {
-		br := gam.GetBR()
-		if br != nil {
-			ix := string(bn)
-			np, _ := BWPlayer_map[ix]
-			np.LastRank = string(br)
-			if gam.setFirstBRank {
-				np.FirstRank = string(br)
-			}
-			BWPlayer_map[ix] = np
-		}
-	}
-	// set the rank for the white name
-	wn := gam.GetPW()
-	if wn != nil {
-		wr := gam.GetWR()
-		if wr != nil {
-			ix := string(wn)
-			np, _ := BWPlayer_map[ix]
-			np.LastRank = string(wr)
-			if gam.setFirstWRank {
-				np.FirstRank = string(wr)
-			}
-			BWPlayer_map[ix] = np
-		}
-	}
 }
 
 // parseProperties parses all the property names starting in a given node.

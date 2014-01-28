@@ -690,9 +690,11 @@ func PrintSGFTypeSizes() {
 	var pt GameTree
 	var pr Parser
 	var pyi PlayerInfo
+	var dbs DBStatistics
 	printSizeAlign("GameTree", unsafe.Sizeof(pt), unsafe.Alignof(pt))
 	printSizeAlign("Parser", unsafe.Sizeof(pr), unsafe.Alignof(pr))
 	printSizeAlign("PlayerInfo", unsafe.Sizeof(pyi), unsafe.Alignof(pyi))
+	printSizeAlign("DBStatistics", unsafe.Sizeof(dbs), unsafe.Alignof(dbs))
 	// sgf.go
 	var ff4n FF4Note
 	var sgfpnt SGFPropNodeType
