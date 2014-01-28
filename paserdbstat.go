@@ -13,6 +13,7 @@ package sgf
 import (
 	"bytes"
 	"fmt"
+	"sort"
 	//    "github.com/Ken1JF/ah"
 	//    "os"
 	//    "strconv"
@@ -20,6 +21,11 @@ import (
 	//    "unicode"
 )
 
+// Tyoe PlayerInfo is used to record statistics about players in a data base
+// of games in .sgf format. It records the number of games, the name of the
+// first game encountered, the rank of the player in the first game, the name
+// of the last game, and rank at the last game. Note: this assumes the games
+// are retrieved in chronological order, from oldest to newest.
 type PlayerInfo struct {
 	NGames    int
 	FirstGame string
@@ -28,37 +34,64 @@ type PlayerInfo struct {
 	LastRank  string
 }
 
-// TODO:  1. these globals need to be collected into a struct.
-// TODO:  2. type Parser needs to have a pointer to this struct.
-// TODO:  3. Parser state includes a bool to indicate collecting or not.
-// TODO:  4. if collecting, if pointer nil, allocate.
-type DBStatistics struct {
-	ID_Counts  ID_CountArray
-	Unkn_Count int
-
-	FirstBRankNotSet int
-	FirstWRankNotSet int
-
-	HA_map map[string]int
-	OH_map map[string]int
-
-	// Break RE into value and comment:
-	RE_map map[string]int
-	RC_map map[string]int
-
-	RU_map     map[string]int
-	BWRank_map map[string]int
-
-	BWPlayer_map map[string]PlayerInfo
+// The type indexedCount is used to hold the contents of
+// a mapStringInt so that it can be sorted.
+type indexedCount struct {
+	idx string
+	cnt int
 }
 
+type mapStringInt map[string]int
+
+// Type ByCount implements the sort.Interface based on
+// the count, with ties broken by the index string.
+type ByCount []indexedCount
+
+func (bc ByCount) Len() int      { return len(bc) }
+func (bc ByCount) Swap(i, j int) { bc[i], bc[j] = bc[j], bc[i] }
+func (bc ByCount) Less(i, j int) bool {
+	if bc[i].cnt > bc[j].cnt {
+		return true
+	} else {
+		if bc[i].cnt < bc[j].cnt {
+			return false
+		}
+	}
+	return bc[i].idx < bc[j].idx
+}
+
+// The struct DBStatistics is used to record statistics about a data base
+// of games in .sgf format.
+type DBStatistics struct {
+	ID_Counts  ID_CountArray // count of occurances of SGF IDs
+	Unkn_Count int           // count of unknown SGF IDs
+
+	FirstBRankNotSet int // count of times setFirstBRank was not set
+	FirstWRankNotSet int // count of times setFirstWRank was not set
+
+	HA_map mapStringInt // count the occurances of handicap values
+	OH_map mapStringInt // count the occurances of old handicap values
+
+	// Break RE into value and comment:
+	RE_map mapStringInt // count the occurances of result values
+	RC_map mapStringInt // count the occurances of result comment values
+
+	RU_map     mapStringInt // count the occurances of rules values
+	BWRank_map mapStringInt // count the occurances of rank values
+
+	BWPlayer_map map[string]PlayerInfo // accumulate player information
+}
+
+// The variable theDBStatistics is used to share statistics among many
+// parsers.
 var theDBStatistics *DBStatistics
 
+// The function initStats must be called before using a DBStatistics struct.
 func (dbStat *DBStatistics) initStats() {
 	dbStat.HA_map = make(map[string]int, 100)
 	dbStat.OH_map = make(map[string]int, 100)
 
-	// Break RE into value and comment:
+	// Break RE into value and optional comment:
 	dbStat.RE_map = make(map[string]int, 100)
 	dbStat.RC_map = make(map[string]int, 100)
 
@@ -68,6 +101,8 @@ func (dbStat *DBStatistics) initStats() {
 	dbStat.BWPlayer_map = make(map[string]PlayerInfo, 100)
 }
 
+// The function GameName returns the last portion of a filename for
+// use as the game name.
 func GameName(fileName string) string {
 	var name []byte
 	name = []byte(fileName)
@@ -80,7 +115,7 @@ func GameName(fileName string) string {
 	return string(name)
 }
 
-// SetPlayerRank
+// The function SetPlayerRank is called after parsing the first move.
 func (p *Parser) SetPlayerRank() {
 	// set the rank for the black name
 	bn := p.GameTree.GetPB()
@@ -201,70 +236,49 @@ func gtr(a []byte, b []byte) bool {
 	return false
 }
 
-func (dbstat *DBStatistics) reportHACounts() {
-	// TODO: sort for canonical output
-	// report the HA map
+func (aMap mapStringInt) reportSortedCounts(what string) {
+	var bc ByCount
+	bc = make([]indexedCount, len(aMap))
+	// move map to array
 	sum := 0
-	for s, n := range dbstat.HA_map {
-		fmt.Printf("Handicap %s occurred %d times.\n", s, n)
+	i := 0
+	for s, n := range aMap {
+		bc[i].idx = s
+		bc[i].cnt = n
+		i += 1
 		sum += n
 	}
-	fmt.Printf("Total Handicap games %d with %d different handicaps\n", sum, len(dbstat.HA_map))
+	// sort array
+	sort.Sort(bc)
+	// report
+	for _, n := range bc {
+		fmt.Println(what, n.idx, "occurred", n.cnt, "times.")
+	}
+	fmt.Printf("Total %s games %d with %d different %ss\n", what, sum, len(aMap), what)
+}
+
+func (dbstat *DBStatistics) reportHACounts() {
+	dbstat.HA_map.reportSortedCounts("Handicap")
 }
 
 func (dbstat *DBStatistics) reportOHCounts() {
-	// TODO: sort for canonical output
-	// report the OH map
-	sum := 0
-	for s, n := range dbstat.OH_map {
-		fmt.Printf("Old Handicap %s occurred %d times.\n", s, n)
-		sum += n
-	}
-	fmt.Printf("Total Old Handicap games %d with %d different settings\n", sum, len(dbstat.OH_map))
+	dbstat.OH_map.reportSortedCounts("Old Handicap")
 }
 
 func (dbstat *DBStatistics) reportRECounts() {
-	// TODO: sort for canonical output
-	// report the RE map
-	sum := 0
-	for s, n := range dbstat.RE_map {
-		fmt.Printf("Result %s occurred %d times.\n", s, n)
-		sum += n
-	}
-	fmt.Printf("Total games with Results %d among %d different settings\n", sum, len(dbstat.RE_map))
+	dbstat.RE_map.reportSortedCounts("Result")
 }
 
 func (dbstat *DBStatistics) reportRCCounts() {
-	// TODO: sort for canonical output
-	// report the RC (result comments)
-	sum := 0
-	for s, n := range dbstat.RC_map {
-		fmt.Printf("Result comment %s occurred %d times.\n", s, n)
-		sum += n
-	}
-	fmt.Printf("Total Result comments %d with %d different comments\n", sum, len(dbstat.RC_map))
+	dbstat.RC_map.reportSortedCounts("Result comment")
 }
 
 func (dbstat *DBStatistics) reportRUCounts() {
-	// TODO: sort for canonical output
-	// report the RU map
-	sum := 0
-	for s, n := range dbstat.RU_map {
-		fmt.Printf("Rules %s occurred %d times.\n", s, n)
-		sum += n
-	}
-	fmt.Printf("Total games with Rules %d with %d different settings\n", sum, len(dbstat.RU_map))
+	dbstat.RU_map.reportSortedCounts("Rules")
 }
 
 func (dbstat *DBStatistics) reportRankCounts() {
-	// TODO: sort for canonical output
-	// report the BWRank map
-	sum := 0
-	for s, n := range dbstat.BWRank_map {
-		fmt.Printf("Rank %s occurred %d times.\n", s, n)
-		sum += n
-	}
-	fmt.Printf("Total players with Ranks %d among %d different settings\n", sum, len(dbstat.BWRank_map))
+	dbstat.BWRank_map.reportSortedCounts("Rank")
 }
 
 func (dbstat *DBStatistics) reportPlayers() {
