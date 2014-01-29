@@ -112,7 +112,7 @@ func (gamT *GameTree) AddTeachingPattern(szCol ah.ColSize, szRow ah.RowSize, ha 
 		pattTree.AddAProp(gInfoPatt, pv)
 		// ADD AP
 		// TODO: make it vary with releases?
-		pv.StrValue = []byte("ahgo:0.8")
+		pv.StrValue = []byte("test-ahgo:0.8")
 		pv.PropType = AP_idx
 		pv.ValType = CompSimpText_simpText
 		pattTree.AddAProp(gInfoPatt, pv)
