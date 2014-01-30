@@ -135,7 +135,8 @@ func (p *Parser) SetPlayerRank() {
 			// fmt.Println("Error, Black Player:",bn,"has nil reank.")
 		}
 	} else {
-		fmt.Println("Error: PB name is nil.")
+		// TODO: this rare. do we need an option to report this?
+		// fmt.Println("Error: PB name is nil.")
 	}
 	// set the rank for the white name
 	wn := p.GameTree.GetPW()
@@ -155,7 +156,8 @@ func (p *Parser) SetPlayerRank() {
 			// fmt.Println("Error, white Player:",wn,"has nil reank.")
 		}
 	} else {
-		fmt.Println("Error: PW name is nil.")
+		// TODO: this rare. do we need an option to report this?
+		// fmt.Println("Error: PW name is nil.")
 	}
 }
 
