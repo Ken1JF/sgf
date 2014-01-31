@@ -36,11 +36,12 @@ type ParserMode uint8
 // Parser functionality.
 
 const (
-	ParseComments ParserMode = 1 << iota // parse comments and add them to tree
-	TraceParser                          // print a trace of parsed productions
-	ParserPlay                           // Do and Undo Board Moves while reading file
-	ParserGoGoD                          // apply GoGoD error checks
-	ParserDbStat                         // count DataBase statistics
+	ParseComments       ParserMode = 1 << iota // parse comments and add them to tree
+	TraceParser                                // print a trace of parsed productions
+	ParserPlay                                 // Do and Undo Board Moves while reading file
+	ParserGoGoD                                // apply GoGoD error checks
+	ParserDbStat                               // count DataBase statistics
+	ParserIgnoreUnknSGF                        // ignore the unknown SGF properties
 )
 
 // The Parser structure holds the Parser's internal state,
@@ -1550,7 +1551,9 @@ func (p *Parser) processProperty(pv PropertyValue, nodd TreeNodeIdx) (ret TreeNo
 		str := string(p.UnknownProperty.ID) + ":" + string(pv.StrValue)
 		pv.StrValue = []byte(str)
 		p.addProp(ret, pv)
-		p.warnings.Add(p.pos, "Unknown SGF property: "+str)
+		if (p.mode & ParserIgnoreUnknSGF) == 0 {
+			p.warnings.Add(p.pos, "Unknown SGF property: "+str)
+		}
 
 	default:
 		p.errors.Add(p.pos, "Not Implemented: "+"default:")

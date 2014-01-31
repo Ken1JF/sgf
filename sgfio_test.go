@@ -6,6 +6,7 @@ import (
 	"github.com/Ken1JF/sgf"
 	"io"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -28,6 +29,17 @@ func ExampleReadWriteSGFFile() {
 			fmt.Println("Can't read test directory:", SGFDir)
 			return
 		}
+		// Check the output directory. If missing, create it.
+		_, errS := os.Stat(OutDir)
+		if errS != nil {
+			err2 := os.MkdirAll(OutDir, os.ModeDir|os.ModePerm)
+			if err2 != nil {
+				fmt.Println("ReadAndWriteDirectory Error:", err2, "trying to create test output directory:", OutDir)
+				fmt.Println("Original Error:", err, "trying os.Stat")
+				return
+			}
+		}
+
 		count := 0
 		for _, f := range dirFiles {
 			if strings.Index(f.Name(), ".sgf") >= 0 {
