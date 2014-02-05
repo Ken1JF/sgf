@@ -107,7 +107,9 @@ func GameName(fileName string) string {
 	var name []byte
 	name = []byte(fileName)
 	i := bytes.LastIndex(name, []byte("/"))
-	name = name[i+1:]
+	if i >= 0 {
+		name = name[i+1:]
+	}
 	i = bytes.Index(name, []byte(".sgf"))
 	if i > 0 {
 		name = name[0:i]
