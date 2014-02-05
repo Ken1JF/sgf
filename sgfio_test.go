@@ -18,8 +18,6 @@ const OutDir = "./testout"
 const outputVerified int = 54      // controls the printing of last graph
 const testStringsVerified int = 55 // controls tracing
 
-const SGFDB_NUM_PER_LINE = 12
-
 func ExampleReadWriteSGFFile() {
 	err := sgf.SetupSGFProperties(defaultSpecFile, false, false)
 	if err == 0 {
@@ -34,7 +32,7 @@ func ExampleReadWriteSGFFile() {
 		if errS != nil {
 			err2 := os.MkdirAll(OutDir, os.ModeDir|os.ModePerm)
 			if err2 != nil {
-				fmt.Println("ReadAndWriteDirectory Error:", err2, "trying to create test output directory:", OutDir)
+				fmt.Println("ExampleReadWriteSGFFile Error:", err2, "trying to create test output directory:", OutDir)
 				fmt.Println("Original Error:", err, "trying os.Stat")
 				return
 			}
@@ -55,14 +53,14 @@ func ExampleReadWriteSGFFile() {
 					fmt.Println("Error reading file:", fileName, err)
 					return
 				}
-				//			prsr , errL := sgf.ParseFile(fileName, b, sgf.ParseComments, 0)
+				// prsr , errL := sgf.ParseFile(fileName, b, sgf.ParseComments, 0)
 				prsr, errL := sgf.ParseFile(fileName, b, sgf.ParseComments+sgf.ParserPlay, 0)
 				if len(errL) != 0 {
 					fmt.Println("Error while parsing:", fileName, ", ", errL.Error())
 					return
 				}
 				outFileName := OutDir + "/" + f.Name()
-				err = prsr.GameTree.WriteFile(outFileName, SGFDB_NUM_PER_LINE)
+				err = prsr.GameTree.WriteFile(outFileName, sgf.DefaultNumPerLine)
 				if err != nil {
 					fmt.Printf("Error writing: %s, %s\n", outFileName, err)
 				}
@@ -72,7 +70,6 @@ func ExampleReadWriteSGFFile() {
 			}
 		}
 	}
-
 	// Output:
 	// Reading SGF Tests, SGFDir = ./testdata , outDir = ./testout
 	// Processing: 0.sgf

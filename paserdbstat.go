@@ -316,7 +316,12 @@ func (dbstat *DBStatistics) reportPlayers() {
 	}
 	for i, s := range playerNames {
 		n, _ := dbstat.BWPlayer_map[string(s)]
-		fmt.Printf("Player %s: %d, first: %s, %s, last: %s, %s\n", s, playerCount[i], n.FirstGame, n.FirstRank, n.LastGame, n.LastRank)
+		fmt.Printf("Player %s: %d, first: %s, %s, last: %s,", s, playerCount[i], n.FirstGame, n.FirstRank, n.LastGame)
+		if n.LastRank != "" {
+			fmt.Printf(" %s\n", n.LastRank)
+		} else {
+			fmt.Printf("\n")
+		}
 	}
 
 	// Sort them numerically:
@@ -330,7 +335,12 @@ func (dbstat *DBStatistics) reportPlayers() {
 	}
 	for i, s := range playerCount {
 		n, _ := dbstat.BWPlayer_map[string(playerNames[i])]
-		fmt.Printf(" %d : %s, first:  %s, %s, last: %s, %s\n", s, playerNames[i], n.FirstGame, n.FirstRank, n.LastGame, n.LastRank)
+		fmt.Printf(" %d : %s, first: %s, %s, last: %s,", s, playerNames[i], n.FirstGame, n.FirstRank, n.LastGame)
+		if n.LastRank != "" {
+			fmt.Printf(" %s\n", n.LastRank)
+		} else {
+			fmt.Printf("\n")
+		}
 	}
 }
 

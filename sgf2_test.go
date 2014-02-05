@@ -716,8 +716,6 @@ func checkHandicapCanonical() {
 			fmt.Println("Error: brds [", i, "] has not been initialized.")
 		}
 	}
-	// Output: look around
-	// its all around you
 }
 
 // ExampleCannonicalHandicap points]

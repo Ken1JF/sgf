@@ -291,7 +291,7 @@ func ExampleTheProperties_tf() {
 	//
 }
 func ExampleTheProperties_ff() {
-	err := SetupSGFProperties(defaultSpecFile, true, true)
+	err := SetupSGFProperties(defaultSpecFile, false, false)
 	if err == 0 {
 
 	} else {

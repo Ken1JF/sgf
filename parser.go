@@ -44,6 +44,8 @@ const (
 	ParserIgnoreUnknSGF                        // ignore the unknown SGF properties
 )
 
+const DefaultParserMode = ParseComments + ParserIgnoreUnknSGF
+
 // The Parser structure holds the Parser's internal state,
 // as well as the parse tree slice.
 

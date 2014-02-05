@@ -20,7 +20,10 @@ import (
 	"strings"
 )
 
-var indent int = 0 // TODO: make this a per parser variable?
+// TODO: move this into a Parser or GameTree attribute, out of the sgfdb DBProcessRequest struct
+const DefaultNumPerLine = 12
+
+var indent int = 0
 
 func u(s string) {
 	if ah.TraceAH {
